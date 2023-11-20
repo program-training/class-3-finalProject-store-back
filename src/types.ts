@@ -3,6 +3,18 @@ interface CartItem {
   quantity: number;
 }
 
+interface Product {
+  name: string;
+  salePrice: number;
+  quantity: number;
+  description: string;
+  category: string;
+  discountPercentage: number;
+  image: {
+    url: string;
+    alt: string;
+  };
+}
 interface Checkout {
   orderId: string;
   cartItems: CartItem[];
@@ -27,6 +39,7 @@ interface Order {
     address: string;
     contactNumber: string;
   };
+  
 }
 
 export { CartItem, Checkout, User, Product, Category, Order };

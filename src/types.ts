@@ -9,9 +9,10 @@ interface Checkout {
 }
 
 interface User {
-  userId: string;
+  _id? : string,
   email: string;
   password: string;
+  userId?: string;
 }
 
 interface Product {}

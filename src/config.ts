@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const MONGO_URL = process.env.BASE_URL_DB;
+const MONGO_URL = process.env.BASE_URL_DB || "";
 const SERVER_PORT = process.env.SERVER_PORT ? Number(process.env.SERVER_PORT) : 1337;
 
 export const config = {

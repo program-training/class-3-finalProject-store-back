@@ -4,8 +4,10 @@ import { handleError } from "../../helpers/handleErrors";
 
 export const getOrderByUser = async (req: Request, res: Response) => {
   try {
-    const response = await getOrderByUserService();
-  } catch (error) {}
+    return await getOrderByUserService(req.body.user.userId);
+  } catch (error) {
+    return handleError(res, error);
+  }
 };
 
 export const postOrderCart = async (req: Request, res: Response) => {

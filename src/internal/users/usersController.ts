@@ -1,3 +1,30 @@
 import { Request, Response } from "express";
+import { userRegisterService, userLoginService } from "./usersServices";
+import { User } from "../../types";
+import { userValidator } from "../../helpers/joi";
+import { handleError } from "../../helpers/handleErrors";
 
-export const signUpUser = async (req: Request, res: Response) => {};
+export const userRegister = async (req: Request, res: Response) => {
+  try {
+    const user: User = req.body;
+    const { error } = userValidator(user);
+    if (error) throw Error(error.details[0].message);
+    const userTokenFromDB = await userRegisterService(user);
+    console.log(userTokenFromDB);
+    res.status(201).json(userTokenFromDB);
+  } catch (error) {
+    handleError(res, error, 401);
+  }
+};
+
+export const userLogin = async (req: Request, res: Response) => {
+  try {
+    const user: User = req.body;
+    const { error } = userValidator(user);
+    if (error) throw Error(error.details[0].message);
+    const userTokenFromDB = await userLoginService(user);
+    res.status(201).json(userTokenFromDB);
+  } catch (error) {
+    handleError(res, error, 401);
+  }
+};

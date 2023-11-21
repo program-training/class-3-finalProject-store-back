@@ -37,7 +37,6 @@ interface Order {
   price: number;
   shippingDetails: ShippingDetails;
 }
-<<<<<<< HEAD
 interface OrderProduct {
   id: string;
   name: string;
@@ -53,8 +52,6 @@ interface ShippingDetails {
   id: string;
 }
 const orderKeys = ["id", "cartItems", "orderTime", "status", "price", "shippingDetails"];
-=======
-export const productKeys: string[] = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];
->>>>>>> 8c7c81e76a7c7437d040f7ee3af0a519344d34cd
+const productKeys: string[] = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];
 
-export { CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, orderKeys };
+export { CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, orderKeys, productKeys };

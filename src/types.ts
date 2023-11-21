@@ -24,7 +24,6 @@ interface User {
   _id?: string;
   email: string;
   password: string;
-  userId?: string;
 }
 
 interface Category {}

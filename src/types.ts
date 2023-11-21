@@ -41,5 +41,6 @@ interface Order {
   };
   
 }
+export const productKeys: string[] = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];
 
 export { CartItem, Checkout, User, Product, Category, Order };

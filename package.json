@@ -13,12 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "@types/cors": "^2.8.16",
-<<<<<<< HEAD
     "bcrypt": "^5.1.1",
     "chalk": "^5.3.0",
-=======
     "axios": "^1.6.2",
->>>>>>> develop
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "email-validator": "^2.0.4",

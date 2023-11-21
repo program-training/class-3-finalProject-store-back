@@ -32,6 +32,7 @@ interface Category {}
 
 interface Order {
   cartItems: Product[];
+  _id? : string,
   orderTime: Date;
   status: string;
   price: number;

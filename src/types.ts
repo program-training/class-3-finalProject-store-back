@@ -52,6 +52,6 @@ interface ShippingDetails {
   id: string;
 }
 const orderKeys = ["id", "cartItems", "orderTime", "status", "price", "shippingDetails"];
-const productKeys: string[] = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];
+const productKeys = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];
 
 export { CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, orderKeys, productKeys };

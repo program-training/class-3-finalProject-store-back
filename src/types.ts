@@ -21,7 +21,7 @@ interface Checkout {
 }
 
 interface User {
-  _id? : string,
+  _id?: string;
   email: string;
   password: string;
   userId?: string;
@@ -32,7 +32,7 @@ interface Category {}
 
 interface Order {
   cartItems: Product[];
-  _id? : string,
+  _id?: string;
   orderTime: Date;
   status: string;
   price: number;
@@ -40,8 +40,24 @@ interface Order {
     address: string;
     contactNumber: string;
   };
-  
 }
-export const productKeys: string[] = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];
+export const productKeys: string[] = [
+  "name",
+  "salePrice",
+  "quantity",
+  "description",
+  "category",
+  "discountPercentage",
+  "image",
+];
+
+export const orderKeys: string[] = [
+  "cartItems",
+  "_id",
+  "orderTime",
+  "status",
+  "price",
+  "shippingDetails",
+];
 
 export { CartItem, Checkout, User, Product, Category, Order };

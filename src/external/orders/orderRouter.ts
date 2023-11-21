@@ -1,5 +1,5 @@
 import express from "express";
-import { getOrderByUser , postOrderCart} from "./orderController";
+import { getOrderByUser, postOrderCart } from "./orderController";
 
 const router = express.Router();
 

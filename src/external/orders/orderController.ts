@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { getOrderByUserService ,postOrderService} from "./orderServices";
+import { getOrderByUserService, postOrderService } from "./orderServices";
+import { handleError } from "../../helpers/handleErrors";
 
 export const getOrderByUser = async (req: Request, res: Response) => {
   try {
@@ -10,9 +11,12 @@ export const getOrderByUser = async (req: Request, res: Response) => {
 export const postOrderCart = async (req: Request, res: Response) => {
   try {
     const response = await postOrderService(req.body);
-    res.status(200).json(response);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ status: "fail", error: "Internal Server Error" });
+    if (response.statusText === "OK") {
+      res.json(response.data);
+    } else {
+      throw new Error("Order not found (controller)");
+    }
+  } catch (err) {
+    handleError(res, err, 404);
   }
 };

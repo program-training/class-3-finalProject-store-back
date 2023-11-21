@@ -1,4 +1,6 @@
 import axios from "axios";
+import { Order, orderKeys } from "../../types";
+import { hasRequiredKeys } from "../../helpers/function";
 
 export async function getOrderByUserDal(userId: string) {
   try {
@@ -8,10 +10,10 @@ export async function getOrderByUserDal(userId: string) {
   } catch {}
 }
 
-export async function postOrderDal(requestBody: CheckoutInterface) {
+export async function postOrderDal(requestBody: Order) {
   try {
     const result = await axios.post(`api/users`, requestBody);
-    if (result.statusText === "OK") {
+    if (result.statusText === "OK" && hasRequiredKeys(result, orderKeys)) {
       return result.data;
     } else {
       throw { status: 404, message: `Product not found` };

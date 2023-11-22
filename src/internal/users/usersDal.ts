@@ -11,8 +11,9 @@ export const userRegisterDal = async (user: User) => {
     if (uniquenessCheck) throw Error(`This user is already registered!`);
     const newUser = new UserDB(user);
     const userRegister = await newUser.save();
+    const userFromDBObject: User = JSON.parse(JSON.stringify(userRegister))
     if (userRegister) {
-      const token = createToken(user);
+      const token = createToken(userFromDBObject);
       return token;
     }
   } catch (err) {
@@ -32,7 +33,8 @@ export const userLoginDal = async (user: User) => {
       userFromDB.password
     );
     if (!comparePasswordFromUser) throw Error(`Password is incorrect`);
-    const token = createToken(user);
+    const userFromDBObject: User = JSON.parse(JSON.stringify(userFromDB))
+    const token = createToken(userFromDBObject);
     return token;
   } catch (err) {
     // console.error(chalk.redBright(err));

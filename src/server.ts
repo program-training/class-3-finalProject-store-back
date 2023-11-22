@@ -14,7 +14,6 @@ app.use(morgan(`tiny`));
 app.use(express.json());
 app.use(authenticateToken);
 app.use(`/users`, usersRouter)
-
 app.use("/orders", routerOrder);
 
 app.listen(config.server.port, () => {

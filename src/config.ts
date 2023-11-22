@@ -4,6 +4,7 @@ dotenv.config();
 
 const MONGO_URL = process.env.BASE_URL_DB || "";
 const SERVER_PORT = process.env.SERVER_PORT ? Number(process.env.SERVER_PORT) : 1337;
+const SECRET = process.env.SECRET;
 
 export const config = {
   mongo: {
@@ -11,5 +12,8 @@ export const config = {
   },
   server: {
     port: SERVER_PORT,
+  },
+  token: {
+    secret: SECRET,
   },
 };

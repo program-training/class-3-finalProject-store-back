@@ -13,9 +13,13 @@ export const getOrderByUser = async (req: Request, res: Response) => {
 export const postOrderCart = async (req: Request, res: Response) => {
   try {
     const response = await postOrderService(req.body);
-    if (response.statusText === "OK") {
+    console.log('test');
+
+    if (response) {
+      console.log('test22');
       res.json(response.data);
     } else {
+      console.log('test233');
       throw new Error("Order not found (controller)");
     }
   } catch (err) {

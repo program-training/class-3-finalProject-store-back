@@ -48,7 +48,6 @@ interface ShippingDetails {
   userId: number;
   contactNumber: string;
   orderType: string;
-  id: string;
 }
 const orderKeys = ["id", "cartItems", "orderTime", "status", "price", "shippingDetails"];
 const productKeys = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];

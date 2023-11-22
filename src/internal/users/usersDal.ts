@@ -33,7 +33,8 @@ export const userLoginDal = async (user: User) => {
       userFromDB.password
     );
     if (!comparePasswordFromUser) throw Error(`Password is incorrect`);
-    const token = createToken(user);
+    const userFromDBObject: User = JSON.parse(JSON.stringify(userFromDB))
+    const token = createToken(userFromDBObject);
     return token;
   } catch (err) {
     // console.error(chalk.redBright(err));

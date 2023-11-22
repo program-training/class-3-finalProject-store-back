@@ -34,3 +34,19 @@ export const getProductDal = async (productId: string) => {
     throw { status: 500, message: `Internal Server Error` };
   }
 };
+
+export const similarProducts = async (categoryName: string, quantity: number) => {
+  try {
+    const productsFromBannerServer = await axios("//", {params: {
+      categoryName, quantity
+    }})
+    const bannerProductsList = productsFromBannerServer.data
+    if (Array.isArray(bannerProductsList) && bannerProductsList[0] instanceof Product) {}
+    // const bannerProductsList: Product[] = productsFromBannerServer.data
+    // return bannerProductsList
+    return productsFromBannerServer.data
+  } catch (err) {
+    console.error(err);
+    return Promise.reject(err);
+  }
+};

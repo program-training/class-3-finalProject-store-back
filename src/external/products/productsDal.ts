@@ -35,16 +35,19 @@ export const getProductDal = async (productId: string) => {
   }
 };
 
-export const similarProducts = async (categoryName: string, quantity: number) => {
+export const similarProductsDal = async (
+  categoryName: string,
+  quantity: number
+) => {
   try {
-    const productsFromBannerServer = await axios("//", {params: {
-      categoryName, quantity
-    }})
-    const bannerProductsList = productsFromBannerServer.data
-    if (Array.isArray(bannerProductsList) && bannerProductsList[0] instanceof Product) {}
-    // const bannerProductsList: Product[] = productsFromBannerServer.data
-    // return bannerProductsList
-    return productsFromBannerServer.data
+    const productsFromBannerServer = await axios("//", {
+      params: {
+        categoryName,
+        quantity,
+      },
+    });
+    const bannerProductsList: Product[] = productsFromBannerServer.data;
+    return bannerProductsList;
   } catch (err) {
     console.error(err);
     return Promise.reject(err);

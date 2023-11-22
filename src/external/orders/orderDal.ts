@@ -17,11 +17,15 @@ export async function getOrderByUserDal(userId: string) {
 
 export async function postOrderDal(requestBody: Order) {
   try {
-    const result = await axios.post(`api/users`, requestBody);
-    if (result.statusText === "OK" && hasRequiredKeys(result, orderKeys)) {
-      return result.data;
+    const result = await axios.post(
+      `${process.env.BASE_URL_OSM}/api/orders`,
+      requestBody
+    );
+    console.log(result.data, result.status, result.statusText);
+    if (result.statusText !== `OK` && hasRequiredKeys(result.data, orderKeys)) {
+      throw { status: 404, message: `Product not found(dal)` };
     } else {
-      throw { status: 404, message: `Product not found` };
+      return result.data;
     }
   } catch (error) {
     console.error(error);

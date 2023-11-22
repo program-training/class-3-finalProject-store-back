@@ -11,13 +11,13 @@ export const userRegisterDal = async (user: User) => {
     if (uniquenessCheck) throw Error(`This user is already registered!`);
     const newUser = new UserDB(user);
     const userRegister = await newUser.save();
-    const userFromDBObject: User = JSON.parse(JSON.stringify(userRegister))
+    console.log(userRegister);
     if (userRegister) {
-      const token = createToken(userFromDBObject);
+      const token = createToken(user);
+      console.log(token);
       return token;
     }
   } catch (err) {
-    // console.error(chalk.redBright(err));
     console.error(err);
     return Promise.reject(err);
   }

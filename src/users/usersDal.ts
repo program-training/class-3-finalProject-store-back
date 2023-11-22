@@ -1,7 +1,7 @@
-import { User } from "../../types";
-import { UserDB } from "./userModel";
-import { createToken } from "../../helpers/jwt";
-import { comparePassword } from "../../helpers/bcrypt";
+import { User } from "../helpers/types";
+import { UserDB } from "../DB/userModel";
+import { createToken } from "../helpers/jwt";
+import { comparePassword } from "../helpers/bcrypt";
 
 export const userRegisterDal = async (user: User) => {
   const { email } = user;

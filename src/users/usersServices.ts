@@ -1,6 +1,6 @@
 import { userRegisterDal, userLoginDal } from "./usersDal";
-import { User } from "../../types";
-import { encryptPassword } from "../../helpers/bcrypt";
+import { User } from "../helpers/types";
+import { encryptPassword } from "../helpers/bcrypt";
 
 export const userRegisterService = async (user: User) => {
   const usersPassword = encryptPassword(user.password);

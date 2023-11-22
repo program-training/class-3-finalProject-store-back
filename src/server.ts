@@ -1,11 +1,11 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import { connectionToDB } from "./connectionToDB";
+import { connectionToDB } from "./DB/connectionToDB";
 import { authenticateToken } from "./helpers/jwt";
-import usersRouter from "./internal/users/usersRouter";
-import productsRouter from "./external/products/productsRouter";
-import ordersRouter from "./external/orders/orderRouter";
+import usersRouter from "./users/usersRouter";
+import productsRouter from "./products/productsRouter";
+import ordersRouter from "./orders/orderRouter";
 import dotenv from "dotenv";
 dotenv.config();
 

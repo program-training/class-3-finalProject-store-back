@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { Category, Product } from "../../types";
+import { Category, Product } from "../helpers/types";
 
 // Mongoose schema for the product
 const productSchema = new Schema<Product>({});

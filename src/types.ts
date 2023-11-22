@@ -21,24 +21,35 @@ interface Checkout {
 }
 
 interface User {
-  userId: string;
+  _id?: string;
   email: string;
   password: string;
 }
 
-interface Product {}
 interface Category {}
 
 interface Order {
-  cartItems: Product[];
-  orderTime: Date;
+  id: string;
+  cartItems: OrderProduct[];
+  orderTime: string;
   status: string;
   price: number;
-  shippingDetails: {
-    address: string;
-    contactNumber: string;
-  };
-  
+  shippingDetails: ShippingDetails;
 }
+interface OrderProduct {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+}
+interface ShippingDetails {
+  address: string;
+  userId: number;
+  contactNumber: string;
+  orderType: string;
+}
+const orderKeys = ["id", "cartItems", "orderTime", "status", "price", "shippingDetails"];
+const productKeys = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];
 
-export { CartItem, Checkout, User, Product, Category, Order };
+export { CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, orderKeys, productKeys };

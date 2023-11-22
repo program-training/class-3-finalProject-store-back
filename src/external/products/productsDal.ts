@@ -1,5 +1,6 @@
-import { Product } from "../../types";
 import axios from "axios";
+import { Product, productKeys } from "../../types";
+import { hasRequiredKeys } from "../../helpers/function";
 
 export const getAllProductsDal = async () => {
   try {
@@ -17,13 +18,13 @@ export const getAllProductsDal = async () => {
 };
 
 export const getProductDal = async (productId: string) => {
-  const hasRequiredKeys = (obj: Record<string, any>, keys: string[]): obj is Product => {
-    return keys.every((key) => key in obj);
-  };
   try {
     const productResult = await axios.get(`/api/products/${productId}`);
     const productData: Product = productResult.data;
-    if (productResult.status === 200 && hasRequiredKeys(productData, ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"])) {
+    if (
+      productResult.status === 200 &&
+      hasRequiredKeys(productData, productKeys)
+    ) {
       return productData;
     } else {
       throw { status: 404, message: `Product not found` };

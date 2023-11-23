@@ -1,15 +1,6 @@
 import { Request, Response } from "express";
-<<<<<<< HEAD:src/external/products/productsController.ts
-import {
-  getAllProductsService,
-  productGetService,
-  similarProductsService,
-} from "./productsService";
-import { handleError } from "../../helpers/handleErrors";
-=======
 import { getAllProductsService, productGetService, similarProductsService } from "./productsService";
 import { handleError } from "../helpers/handleErrors";
->>>>>>> develop:src/products/productsController.ts
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
@@ -17,7 +8,7 @@ export const getAllProducts = async (req: Request, res: Response) => {
     if (productsData) {
       res.status(200).json(productsData);
     } else {
-      throw new Error("get all product not found (controler)");
+      throw new Error("get all product not found (controller)");
     }
   } catch (err) {
     return handleError(res, err, 401);

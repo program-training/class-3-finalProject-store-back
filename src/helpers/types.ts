@@ -67,19 +67,4 @@ const productKeys = [
   "image",
 ];
 
-<<<<<<< HEAD:src/types.ts
-export {
-  CartItem,
-  Checkout,
-  User,
-  Product,
-  Category,
-  Order,
-  OrderProduct,
-  ShippingDetails,
-  orderKeys,
-  productKeys,
-};
-=======
 export { CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, orderKeys, productKeys };
->>>>>>> develop:src/helpers/types.ts

@@ -6,7 +6,7 @@ import {
 
 export const getAllProductsService = async () => await getAllProductsDal();
 
-export const productGetService = async (productId: string) =>
+export const getProductService = async (productId: string) =>
   await getProductDal(productId);
 
 export const similarProductsService = async (

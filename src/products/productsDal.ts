@@ -1,19 +1,21 @@
 import axios from "axios";
-import { Product, productKeys } from "../../types";
-import { hasRequiredKeys } from "../../helpers/function";
+import { Product, productKeys } from "../helpers/types";
+import { hasRequiredKeys } from "../helpers/function";
 
 export const getAllProductsDal = async () => {
   try {
-    const productsResult = await axios.get("/api/products");
+    const productsResult = await axios.get(`${process.env.BASE_URL_ERP}/api/shop_inventory/`);
     const products: Product[] = productsResult.data;
-    if (productsResult.status === 200) {
-      return products;
+    console.log(products, productsResult.status);
+    if (productsResult.statusText !== "OK") {
+      console.log(products, productsResult.status);
+      throw { status: 404, message: `Product not found (dal)` };
     } else {
-      throw { status: 404, message: `Product not found` };
+      return products;
     }
   } catch (error) {
     console.error(error);
-    throw { status: 500, message: `Internal Server Error` };
+    throw { status: 500, message: `Internal Server Error (dal)` };
   }
 };
 
@@ -21,10 +23,7 @@ export const getProductDal = async (productId: string) => {
   try {
     const productResult = await axios.get(`/api/products/${productId}`);
     const productData: Product = productResult.data;
-    if (
-      productResult.status === 200 &&
-      hasRequiredKeys(productData, productKeys)
-    ) {
+    if (productResult.status === 200 && hasRequiredKeys(productData, productKeys)) {
       return productData;
     } else {
       throw { status: 404, message: `Product not found` };
@@ -35,10 +34,7 @@ export const getProductDal = async (productId: string) => {
   }
 };
 
-export const similarProductsDal = async (
-  categoryName: string,
-  quantity: number
-) => {
+export const similarProductsDal = async (categoryName: string, quantity: number) => {
   try {
     const productsFromBannerServer = await axios(
       `https://beckend-banners-deploy.onrender.com/api/categoryName`,

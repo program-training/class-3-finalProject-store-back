@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { userRegisterService, userLoginService } from "./usersServices";
-import { User } from "../../types";
-import { userValidator } from "../../helpers/joi";
-import { handleError } from "../../helpers/handleErrors";
+import { User } from "../helpers/types";
+import { userValidator } from "../helpers/joi";
+import { handleError } from "../helpers/handleErrors";
 
 export const userRegister = async (req: Request, res: Response) => {
   try {

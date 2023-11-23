@@ -1,10 +1,15 @@
 import { Request, Response } from "express";
+<<<<<<< HEAD:src/external/products/productsController.ts
 import {
   getAllProductsService,
   productGetService,
   similarProductsService,
 } from "./productsService";
 import { handleError } from "../../helpers/handleErrors";
+=======
+import { getAllProductsService, productGetService, similarProductsService } from "./productsService";
+import { handleError } from "../helpers/handleErrors";
+>>>>>>> develop:src/products/productsController.ts
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {

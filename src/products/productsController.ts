@@ -1,6 +1,15 @@
 import { Request, Response } from "express";
+<<<<<<< HEAD:src/external/products/productsController.ts
+import {
+  getAllProductsService,
+  productGetService,
+  similarProductsService,
+} from "./productsService";
+import { handleError } from "../../helpers/handleErrors";
+=======
 import { getAllProductsService, productGetService, similarProductsService } from "./productsService";
 import { handleError } from "../helpers/handleErrors";
+>>>>>>> develop:src/products/productsController.ts
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
@@ -30,8 +39,11 @@ export const product = async (req: Request, res: Response) => {
 
 export const similarProducts = async (req: Request, res: Response) => {
   try {
-    const {categoryName, quantity} = req.body
-    const bannerProductsList = await similarProductsService(categoryName, quantity);
+    const { categoryName, quantity } = req.body;
+    const bannerProductsList = await similarProductsService(
+      categoryName,
+      quantity
+    );
     res.status(201).json(bannerProductsList);
   } catch (error) {
     handleError(res, error, 401);

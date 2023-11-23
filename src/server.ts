@@ -12,7 +12,11 @@ dotenv.config();
 const app = express();
 
 app.use(cors());
+<<<<<<< HEAD
+app.use(morgan(`[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms`));
+=======
 app.use(morgan("tiny"));
+>>>>>>> develop
 app.use(express.json());
 app.use(authenticateToken);
 app.use("api/users", usersRouter);

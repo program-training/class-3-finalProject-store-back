@@ -36,12 +36,15 @@ export const getProductDal = async (productId: string) => {
 
 export const similarProductsDal = async (categoryName: string, quantity: number) => {
   try {
-    const productsFromBannerServer = await axios("//", {
-      params: {
-        categoryName,
-        quantity,
-      },
-    });
+    const productsFromBannerServer = await axios(
+      `https://beckend-banners-deploy.onrender.com/api/categoryName`,
+      {
+        params: {
+          categoryName,
+          quantity,
+        },
+      }
+    );
     const bannerProductsList: Product[] = productsFromBannerServer.data;
     return bannerProductsList;
   } catch (err) {

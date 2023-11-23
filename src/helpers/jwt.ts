@@ -5,7 +5,8 @@ import { User } from "../helpers/types";
 const secret = process.env.SECRET || "";
 
 export const createToken = (user: User) => {
-  const token = jwt.sign(user, secret);
+  const userObj = { email: user.email, id: user._id };
+  const token = jwt.sign(userObj, secret);
   return token;
 };
 

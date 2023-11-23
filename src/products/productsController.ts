@@ -26,7 +26,7 @@ export const getProduct = async (req: Request, res: Response) => {
 
 export const similarProducts = async (req: Request, res: Response) => {
   try {
-    const { categoryName, quantity } = req.body;
+    const { categoryName, quantity } = req.body.params;
     const bannerProductsList = await similarProductsService(categoryName, quantity);
     res.status(201).json(bannerProductsList);
   } catch (error) {

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Product, productKeys } from "../helpers/types";
 import { hasRequiredKeys } from "../helpers/function";
+import { log } from "console";
 
 export const getAllProductsDal = async () => {
   try {
@@ -23,6 +24,7 @@ export const getProductDal = async (productId: string) => {
   try {
     const productResult = await axios.get(`${process.env.BASE_URL_ERP}/api/shop_inventory/${productId}`);
     const productData: Product = productResult.data;
+    console.log(productData);
     return productData;
   } catch (error) {
     console.error(error);
@@ -34,7 +36,7 @@ export const similarProductsDal = async (categoryName: string, quantity: number)
   try {
     const productsFromBannerServer = await axios(`https://beckend-banners-deploy.onrender.com/api/recommended/categoryName`, {
       params: {
-        categoryName: quantity,
+        categoryName, quantity,
       },
     });
     const bannerProductsList: Product[] = productsFromBannerServer.data;

@@ -1,22 +1,30 @@
 import express from "express";
 import morgan from "morgan";
+import moment from "moment-timezone";
 import cors from "cors";
-import { config } from "./config";
-import { connectionToDB } from "./connectionToDB";
-import {authenticateToken} from "./helpers/jwt"
-import usersRouter from "./internal/users/usersRouter"
-import routerOrder from "./external/orders/orderRouter";
+import { connectionToDB } from "./DB/connectionToDB";
+import { authenticateToken } from "./helpers/jwt";
+import usersRouter from "./users/usersRouter";
+import productsRouter from "./products/productsRouter";
+import ordersRouter from "./orders/orderRouter";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
+morgan.token("date", function () {
+  return moment().tz("Israel").format("DD/MMM/YYYY:HH:mm:ss ZZ");
+});
 
 app.use(cors());
-app.use(morgan(`tiny`));
+app.use(morgan(`[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms`));
 app.use(express.json());
 app.use(authenticateToken);
-app.use(`/users`, usersRouter)
-app.use("/orders", routerOrder);
+app.use("/api/users", usersRouter);
+app.use("/api/products", productsRouter);
+app.use("/api/orders", ordersRouter);
 
-app.listen(config.server.port, () => {
-  console.log(`Server is running on port ${config.server.port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
+  console.log(process.env);
   connectionToDB();
 });

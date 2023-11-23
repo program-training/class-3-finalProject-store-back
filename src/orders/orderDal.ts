@@ -1,6 +1,6 @@
 import axios from "axios";
-import { Order, orderKeys } from "../../types";
-import { hasRequiredKeys } from "../../helpers/function";
+import { Order, orderKeys } from "../helpers/types";
+import { hasRequiredKeys } from "../helpers/function";
 
 export async function getOrderByUserDal(userId: string) {
   try {
@@ -17,10 +17,7 @@ export async function getOrderByUserDal(userId: string) {
 
 export async function postOrderDal(requestBody: Order) {
   try {
-    const result = await axios.post(
-      `${process.env.BASE_URL_OSM}/api/orders`,
-      requestBody
-    );
+    const result = await axios.post(`${process.env.BASE_URL_OSM}/api/orders`, requestBody);
     console.log(result.data, result.status, result.statusText);
     if (result.statusText !== `OK` && hasRequiredKeys(result.data, orderKeys)) {
       throw { status: 404, message: `Product not found(dal)` };

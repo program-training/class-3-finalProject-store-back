@@ -12,7 +12,7 @@ dotenv.config();
 
 const app = express();
 morgan.token("date", function () {
-  return moment().tz("Israel").format("DD/MMM/YYYY:HH:mm:ss ZZ");
+  return moment().tz("Israel").format("DD/MMM/YYYY HH:mm:ss ZZ");
 });
 
 app.use(cors());
@@ -25,6 +25,5 @@ app.use("/api/orders", ordersRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
-  console.log(process.env);
   connectionToDB();
 });

@@ -49,7 +49,33 @@ interface ShippingDetails {
   contactNumber: string;
   orderType: string;
 }
-const orderKeys = ["id", "cartItems", "orderTime", "status", "price", "shippingDetails"];
-const productKeys = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];
+const orderKeys = [
+  "id",
+  "cartItems",
+  "orderTime",
+  "status",
+  "price",
+  "shippingDetails",
+];
+const productKeys = [
+  "name",
+  "salePrice",
+  "quantity",
+  "description",
+  "category",
+  "discountPercentage",
+  "image",
+];
 
-export { CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, orderKeys, productKeys };
+export {
+  CartItem,
+  Checkout,
+  User,
+  Product,
+  Category,
+  Order,
+  OrderProduct,
+  ShippingDetails,
+  orderKeys,
+  productKeys,
+};

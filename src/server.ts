@@ -11,7 +11,7 @@ import ordersRouter from "./external/orders/orderRouter";
 const app = express();
 
 app.use(cors());
-app.use(morgan(`tiny`));
+app.use(morgan(`[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms`));
 app.use(express.json());
 app.use(authenticateToken);
 app.use(`/users`, usersRouter);

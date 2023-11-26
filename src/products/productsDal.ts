@@ -45,10 +45,17 @@ export const getCategoriesDal = async () => {
       `${process.env.BASE_URL_ERP}/api/shop_inventory/categories`
     );
     const categoriesData = categoriesResult.data;
-    const categoriesNames: string[] = [];
+    type Category = {
+      name: string;
+      id: string;
+    };
+    const categoriesNames: Category[] = [];
     if (categoriesResult.status === 200) {
       for (let i = 0; i < categoriesData.length; i++) {
-        categoriesNames.push(categoriesData[i].name);
+        categoriesNames.push({
+          name: categoriesData[i].name,
+          id: categoriesData[i]._id,
+        });
       }
       return categoriesNames;
     } else {

@@ -32,7 +32,7 @@ interface Order {
   id: string;
   cartItems: OrderProduct[];
   orderTime: string;
-  status: string;
+  status: "Pending" | "Delivered" | "Refunded";
   price: number;
   shippingDetails: ShippingDetails;
 }
@@ -47,7 +47,7 @@ interface ShippingDetails {
   address: string;
   userId: number;
   contactNumber: string;
-  orderType: string;
+  orderType: "Pickup" | "Express" | "Shipping";
 }
 const orderKeys = ["id", "cartItems", "orderTime", "status", "price", "shippingDetails"];
 const productKeys = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];

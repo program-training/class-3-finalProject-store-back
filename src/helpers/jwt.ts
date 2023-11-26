@@ -13,7 +13,6 @@ export const createToken = (user: User) => {
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-
   if (token == null) next();
   else
     jwt.verify(token, secret, (err, user) => {

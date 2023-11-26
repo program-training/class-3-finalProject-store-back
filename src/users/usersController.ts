@@ -13,7 +13,7 @@ export const userRegister = async (req: Request, res: Response) => {
     console.log(userTokenFromDB);
     res.status(201).json(userTokenFromDB);
   } catch (error) {
-    handleError(res, error, 401);
+    return handleError(res, error, 401);
   }
 };
 
@@ -25,6 +25,6 @@ export const userLogin = async (req: Request, res: Response) => {
     const userTokenFromDB = await userLoginService(user);
     res.status(200).json(userTokenFromDB);
   } catch (error) {
-    handleError(res, error, 401);
+    return handleError(res, error, 401);
   }
 };

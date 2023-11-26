@@ -19,7 +19,7 @@ export const userRegisterDal = async (user: User) => {
     }
   } catch (err) {
     console.error(err);
-    return Promise.reject(err);
+    // return Promise.reject(err);
   }
 };
 

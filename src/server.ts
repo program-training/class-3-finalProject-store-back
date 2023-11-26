@@ -8,7 +8,7 @@ import usersRouter from "./internal/users/usersRouter";
 import productsRouter from "./external/products/productsRouter"
 import ordersRouter from "./external/orders/orderRouter";
 
-const app = express();
+export const app = express();
 
 app.use(cors());
 app.use(morgan(`tiny`));

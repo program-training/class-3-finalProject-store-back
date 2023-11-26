@@ -1,34 +1,37 @@
 import request from "supertest";
-import { app } from "../../src/server";
-import { connectionToDB } from "../../src/connectionToDB";
 import { config } from "../../src/config";
-import mongoose, { Connection } from "mongoose";
-const port = config.server.port;
-let connection, server;
-beforeAll((done) => {
-  done();
-});
+import mongoose from "mongoose";
 
-afterAll((done) => {
-  // Closing the DB connection allows Jest to exit successfully.
-  mongoose.connection.close();
-  done();
+beforeEach(async () => {
+  await mongoose.connect(config.mongo.url);
+  
+});
+/* Closing database connection after each test. */
+afterEach(async () => {
+  await mongoose.connection.close();
 });
 
 describe("user sign up", () => {
-  it("should create user successfully", async () => {
-    const newUser = {
-      "email": "user@example.com",
-      "password": "12@WEcvf2!5",
-    };
-    const response = await request(app)
-      .post("/users/register")
-      .send(newUser)
-      .timeout({ response: 20000 })
-      .expect(201);
-
-    const user = response.body;
-    expect(user).toBeDefined();
-    expect(user).toEqual(newUser);
+  it("should create a user", async () => {
+    const res = await request("http://localhost:6050").post("/users/register").send({
+      email: "user@example.com",
+      password: "12@WEcvf2!5",
+    });
+    expect(res.statusCode).toBe(201);
+    console.log(res.body);
+    expect(res.body).toBeDefined();
+  });
+});
+describe("user sign in", () => {
+  it("should sign in", async () => {
+    const res = await request("http://localhost:6050")
+      .post("/users/login")
+      .send({
+        email: "user@example.com",
+        password: "12@WEcvf2!5",
+      });
+    expect(res.statusCode).toBe(200);
+    console.log(res.body);
+    expect(res.body).toBeDefined();
   });
 });

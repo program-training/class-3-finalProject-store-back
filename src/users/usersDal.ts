@@ -13,11 +13,9 @@ export const userRegisterDal = async (user: User) => {
     console.log(userRegister);
     if (userRegister) {
       const token = createToken(user);
-      console.log(token);
       return token;
     }
   } catch (err) {
-    console.error(err);
     return Promise.reject(err);
   }
 };
@@ -33,7 +31,6 @@ export const userLoginDal = async (user: User) => {
     const token = createToken(userFromDBObject);
     return token;
   } catch (err) {
-    console.error(err);
     return Promise.reject(err);
   }
 };

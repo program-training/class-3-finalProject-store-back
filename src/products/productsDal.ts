@@ -4,7 +4,9 @@ import { hasRequiredKeys } from "../helpers/function";
 
 export const getAllProductsDal = async () => {
   try {
-    const productsResult = await axios.get(`${process.env.BASE_URL_ERP}/api/shop_inventory/`);
+    const productsResult = await axios.get(
+      `${process.env.BASE_URL_ERP}/api/shop_inventory/`
+    );
     const products: Product[] = productsResult.data;
     console.log(products, productsResult.status);
     if (productsResult.statusText !== "OK") {
@@ -23,7 +25,10 @@ export const getProductDal = async (productId: string) => {
   try {
     const productResult = await axios.get(`/api/products/${productId}`);
     const productData: Product = productResult.data;
-    if (productResult.status === 200 && hasRequiredKeys(productData, productKeys)) {
+    if (
+      productResult.status === 200 &&
+      hasRequiredKeys(productData, productKeys)
+    ) {
       return productData;
     } else {
       throw { status: 404, message: `Product not found` };
@@ -34,7 +39,31 @@ export const getProductDal = async (productId: string) => {
   }
 };
 
-export const similarProductsDal = async (categoryName: string, quantity: number) => {
+export const getCategoriesDal = async () => {
+  try {
+    const categoriesResult = await axios.get(
+      `${process.env.BASE_URL_ERP}/api/shop_inventory/categories`
+    );
+    const categoriesData = categoriesResult.data;
+    const categoriesNames: string[] = [];
+    if (categoriesResult.status === 200) {
+      for (let i = 0; i < categoriesData.length; i++) {
+        categoriesNames.push(categoriesData[i].name);
+      }
+      return categoriesNames;
+    } else {
+      throw { status: 404, message: `Categories not found` };
+    }
+  } catch (error) {
+    console.error(error);
+    throw { status: 500, message: `Internal Server Error` };
+  }
+};
+
+export const similarProductsDal = async (
+  categoryName: string,
+  quantity: number
+) => {
   try {
     const productsFromBannerServer = await axios(
       `https://beckend-banners-deploy.onrender.com/api/categoryName`,

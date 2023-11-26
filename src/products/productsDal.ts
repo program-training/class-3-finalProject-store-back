@@ -1,30 +1,21 @@
 import axios from "axios";
 import { Product, productKeys } from "../helpers/types";
-import { hasRequiredKeys } from "../helpers/function";
-import { log } from "console";
 
 export const getAllProductsDal = async () => {
   try {
-    const productsResult = await axios.get(`${process.env.BASE_URL_ERP}/api/shop_inventory`);
+    const productsResult = await axios(`${process.env.BASE_URL_ERP}/api/shop_inventory`);
     const products: Product[] = productsResult.data;
-    console.log(products, productsResult.status);
-    if (productsResult.statusText !== "OK") {
-      console.log(products, productsResult.status);
-      throw { status: 404, message: `Product not found (dal)` };
-    } else {
-      return products;
-    }
+    return products;
   } catch (error) {
     console.error(error);
-    throw { status: 500, message: `Internal Server Error (dal)` };
+    return Promise.reject(error);
   }
 };
 
 export const getProductDal = async (productId: string) => {
   try {
-    const productResult = await axios.get(`${process.env.BASE_URL_ERP}/api/shop_inventory/${productId}`);
+    const productResult = await axios(`${process.env.BASE_URL_ERP}/api/shop_inventory/${productId}`);
     const productData: Product = productResult.data;
-    console.log(productData);
     return productData;
   } catch (error) {
     console.error(error);
@@ -34,15 +25,16 @@ export const getProductDal = async (productId: string) => {
 
 export const similarProductsDal = async (categoryName: string, quantity: number) => {
   try {
-    const productsFromBannerServer = await axios(`https://beckend-banners-deploy.onrender.com/api/recommended/categoryName`, {
+    const productsFromBannerServer = await axios(`${process.env.BASE_URL_BANNERS}/api/recommended/categoryName`, {
       params: {
-        categoryName, quantity,
+        categoryName,
+        quantity,
       },
     });
     const bannerProductsList: Product[] = productsFromBannerServer.data;
     return bannerProductsList;
-  } catch (err) {
-    console.error(err);
-    return Promise.reject(err);
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
   }
 };

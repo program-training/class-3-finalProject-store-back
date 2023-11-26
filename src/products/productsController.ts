@@ -5,13 +5,9 @@ import { handleError } from "../helpers/handleErrors";
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
     const productsData = await getAllProductsService();
-    if (productsData) {
-      res.status(200).json(productsData);
-    } else {
-      throw new Error("get all product not found (controller)");
-    }
-  } catch (err) {
-    return handleError(res, err, 401);
+    res.status(201).json(productsData);
+  } catch (error) {
+    return handleError(res, error, 401);
   }
 };
 
@@ -26,8 +22,8 @@ export const getProduct = async (req: Request, res: Response) => {
 
 export const similarProducts = async (req: Request, res: Response) => {
   try {
-    const { categoryName, quantity } = req.body.params;
-    const bannerProductsList = await similarProductsService(categoryName, quantity);
+    const { categoryName, quantity } = req.params;
+    const bannerProductsList = await similarProductsService(categoryName, Number(quantity));
     res.status(201).json(bannerProductsList);
   } catch (error) {
     handleError(res, error, 401);

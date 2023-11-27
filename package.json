@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node .",
-    "dev": "nodemon --exec ts-node .",
+    "dev": "nodemon --exec ts-node src/server.ts",
     "build": "tsc -w",
     "lint": "eslint  **/*.{ts,tsx}  --quiet"
   },

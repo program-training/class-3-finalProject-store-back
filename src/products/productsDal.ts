@@ -2,9 +2,12 @@ import axios from "axios";
 import { Product, productKeys } from "../helpers/types";
 import { hasRequiredKeys } from "../helpers/function";
 
-export const getAllProductsDal = async () => {
+export const getAllProductsDal = async (categoryId?: string) => {
   try {
-    const productsResult = await axios(`${process.env.BASE_URL_ERP}/api/shop_inventory`);
+    const url = categoryId
+      ? `${process.env.BASE_URL_ERP}/api/shop_inventory/category${categoryId}`
+      : `${process.env.BASE_URL_ERP}/api/shop_inventory`;
+    const productsResult = await axios.get(url);
     const products: Product[] = productsResult.data;
     return products;
   } catch (error) {
@@ -56,12 +59,15 @@ export const getCategoriesDal = async () => {
 
 export const similarProductsDal = async (categoryName: string, quantity: number) => {
   try {
-    const productsFromBannerServer = await axios(`${process.env.BASE_URL_BANNERS}/api/recommended/categoryName`, {
-      params: {
-        categoryName,
-        quantity,
-      },
-    });
+    const productsFromBannerServer = await axios(
+      `${process.env.BASE_URL_BANNERS}/api/recommended/categoryName`,
+      {
+        params: {
+          categoryName,
+          quantity,
+        },
+      }
+    );
     const bannerProductsList: Product[] = productsFromBannerServer.data;
     return bannerProductsList;
   } catch (error) {

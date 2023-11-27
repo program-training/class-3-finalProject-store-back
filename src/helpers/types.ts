@@ -1,8 +1,3 @@
-interface CartItem {
-  productId: string;
-  quantity: number;
-}
-
 interface Product {
   name: string;
   salePrice: number;
@@ -15,6 +10,12 @@ interface Product {
     alt: string;
   };
 }
+
+interface CartItem {
+  userId: string;
+  items: Product[];
+}
+
 interface Checkout {
   orderId: string;
   cartItems: CartItem[];

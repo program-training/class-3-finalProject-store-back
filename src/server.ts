@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(authenticateToken);
 app.use("/api/users", usersRouter);
 app.use("/api/products", productsRouter);
-app.use("/api/orders", ordersRouter);
+app.use("/api/orders", ordersRouter);  
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

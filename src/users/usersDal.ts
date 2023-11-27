@@ -1,5 +1,5 @@
 import { User } from "../helpers/types";
-import { UserDB } from "../DB/userModel";
+import { UserDB } from "../DB/models/userModel";
 import { createToken } from "../helpers/jwt";
 import { comparePassword } from "../helpers/bcrypt";
 
@@ -25,7 +25,10 @@ export const userLoginDal = async (user: User) => {
     const { email, password } = user;
     const userFromDB = await UserDB.findOne({ email: email });
     if (!userFromDB) throw Error(`User not found`);
-    const comparePasswordFromUser = comparePassword(password, userFromDB.password);
+    const comparePasswordFromUser = comparePassword(
+      password,
+      userFromDB.password
+    );
     if (!comparePasswordFromUser) throw Error(`Password is incorrect`);
     const userFromDBObject: User = JSON.parse(JSON.stringify(userFromDB));
     const token = createToken(userFromDBObject);

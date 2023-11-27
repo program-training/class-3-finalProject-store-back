@@ -9,8 +9,8 @@
     "dev": "nodemon --exec ts-node src/server.ts",
     "build": "tsc -w",
     "lint": "eslint  **/*.{ts,tsx}  --quiet"
-  },
-  "author": "",
+  },      
+  "author": "",        
   "license": "ISC",
   "dependencies": {
     "@types/cors": "^2.8.16",

@@ -6,7 +6,7 @@ import {
 } from "./productsDal";
 
 export const getAllProductsService = async (categoryId?: string) => {
-  categoryId ? await getAllProductsDal(categoryId) : await getAllProductsDal();
+ return  categoryId ?  await getAllProductsDal(categoryId) : await getAllProductsDal();
 };
 
 export const getProductService = async (productId: string) =>

@@ -10,7 +10,7 @@ export const getAllProductsService = async (categoryId?: string) => {
 };
 
 export const getProductService = async (productId: string) =>
-  await getProductDal(productId);
+  await getProductDal(productId)
 
 export const categoriesService = async () => await getCategoriesDal();
 

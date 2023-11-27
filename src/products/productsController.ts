@@ -5,6 +5,7 @@ import {
   getProductService,
   similarProductsService,
 } from "./productsService";
+
 import { handleError } from "../helpers/handleErrors";
 
 export const getAllProducts = async (req: Request, res: Response) => {
@@ -40,12 +41,11 @@ export const categories = async (req: Request, res: Response) => {
 
 export const similarProducts = async (req: Request, res: Response) => {
   try {
-    const { categoryName, quantity } = req.body;
-    const bannerProductsList = await similarProductsService(
-      categoryName,
-      quantity
-    );
-    res.status(201).json(bannerProductsList);
+    const { categoryName, quantity } = req.query;
+    if (typeof categoryName === `string` && quantity) {
+      const bannerProductsList = await similarProductsService(categoryName, Number(quantity));
+      res.status(201).json(bannerProductsList);
+    }
   } catch (error) {
     handleError(res, error, 401);
   }

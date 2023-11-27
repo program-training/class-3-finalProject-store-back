@@ -18,11 +18,7 @@ export const getAllProductsDal = async (categoryId?: string) => {
 
 export const getProductDal = async (productId: string) => {
   try {
-    const productResult = await axios(
-      `${process.env.BASE_URL_ERP}/api/shop_inventory/${productId}`
-    );
-    const productData: Product = productResult.data;
-    
+    const productResult = await axios(`${process.env.BASE_URL_ERP}/api/shop_inventory/${productId}`);
     if (productResult.status === 200 && hasRequiredKeys(productResult.data, productKeys)) {
       const productData: Product = productResult.data;
       return productData;

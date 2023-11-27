@@ -1,15 +1,10 @@
 import axios from "axios";
 import { Product, productKeys } from "../helpers/types";
+import { hasRequiredKeys } from "../helpers/function";
 
 export const getAllProductsDal = async () => {
   try {
-<<<<<<< HEAD
-    const productsResult = await axios(`${process.env.BASE_URL_ERP}/api/shop_inventory`);
-=======
-    const productsResult = await axios.get(
-      `${process.env.BASE_URL_ERP}/api/shop_inventory/`
-    );
->>>>>>> develop
+    const productsResult = await axios.get(`${process.env.BASE_URL_ERP}/api/shop_inventory/`);
     const products: Product[] = productsResult.data;
     return products;
   } catch (error) {
@@ -21,19 +16,12 @@ export const getAllProductsDal = async () => {
 export const getProductDal = async (productId: string) => {
   try {
     const productResult = await axios(`${process.env.BASE_URL_ERP}/api/shop_inventory/${productId}`);
-    const productData: Product = productResult.data;
-<<<<<<< HEAD
-    return productData;
-=======
-    if (
-      productResult.status === 200 &&
-      hasRequiredKeys(productData, productKeys)
-    ) {
+    if (productResult.status === 200 && hasRequiredKeys(productResult.data, productKeys)) {
+      const productData: Product = productResult.data;
       return productData;
     } else {
       throw { status: 404, message: `Product not found` };
     }
->>>>>>> develop
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -42,9 +30,7 @@ export const getProductDal = async (productId: string) => {
 
 export const getCategoriesDal = async () => {
   try {
-    const categoriesResult = await axios.get(
-      `${process.env.BASE_URL_ERP}/api/shop_inventory/categories`
-    );
+    const categoriesResult = await axios.get(`${process.env.BASE_URL_ERP}/api/shop_inventory/categories`);
     const categoriesData = categoriesResult.data;
     type Category = {
       name: string;
@@ -68,10 +54,7 @@ export const getCategoriesDal = async () => {
   }
 };
 
-export const similarProductsDal = async (
-  categoryName: string,
-  quantity: number
-) => {
+export const similarProductsDal = async (categoryName: string, quantity: number) => {
   try {
     const productsFromBannerServer = await axios(`${process.env.BASE_URL_BANNERS}/api/recommended/categoryName`, {
       params: {

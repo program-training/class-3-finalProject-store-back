@@ -22,13 +22,12 @@ export const getProductDal = async (productId: string) => {
       `${process.env.BASE_URL_ERP}/api/shop_inventory/${productId}`
     );
     const productData: Product = productResult.data;
-    if (
-      productResult.status === 200 &&
-      hasRequiredKeys(productData, productKeys)
-    ) {
+    
+    if (productResult.status === 200 && hasRequiredKeys(productResult.data, productKeys)) {
+      const productData: Product = productResult.data;
       return productData;
     } else {
-      throw { status: 404, message: `Product not found` };
+      throw { status: 402, message: `Product not found` };
     }
   } catch (error) {
     console.error(error);
@@ -38,9 +37,7 @@ export const getProductDal = async (productId: string) => {
 
 export const getCategoriesDal = async () => {
   try {
-    const categoriesResult = await axios.get(
-      `${process.env.BASE_URL_ERP}/api/shop_inventory/categories`
-    );
+    const categoriesResult = await axios.get(`${process.env.BASE_URL_ERP}/api/shop_inventory/categories`);
     const categoriesData = categoriesResult.data;
     type Category = {
       name: string;
@@ -64,10 +61,7 @@ export const getCategoriesDal = async () => {
   }
 };
 
-export const similarProductsDal = async (
-  categoryName: string,
-  quantity: number
-) => {
+export const similarProductsDal = async (categoryName: string, quantity: number) => {
   try {
     const productsFromBannerServer = await axios(
       `${process.env.BASE_URL_BANNERS}/api/recommended/categoryName`,

@@ -5,7 +5,7 @@ import { hasRequiredKeys } from "../helpers/function";
 export const getAllProductsDal = async (categoryId?: string) => {
   try {
     const url = categoryId
-      ? `${process.env.BASE_URL_ERP}/api/shop_inventory/${categoryId}`
+      ? `${process.env.BASE_URL_ERP}/api/shop_inventory/category${categoryId}`
       : `${process.env.BASE_URL_ERP}/api/shop_inventory`;
     const productsResult = await axios.get(url);
     const products: Product[] = productsResult.data;

@@ -6,27 +6,47 @@ export const getAllProductsDal = async () => {
   try {
     const productsResult = await axios.get(`${process.env.BASE_URL_ERP}/api/shop_inventory/`);
     const products: Product[] = productsResult.data;
-    console.log(products, productsResult.status);
-    if (productsResult.statusText !== "OK") {
-      console.log(products, productsResult.status);
-      throw { status: 404, message: `Product not found (dal)` };
-    } else {
-      return products;
-    }
+    return products;
   } catch (error) {
     console.error(error);
-    throw { status: 500, message: `Internal Server Error (dal)` };
+    return Promise.reject(error);
   }
 };
 
 export const getProductDal = async (productId: string) => {
   try {
-    const productResult = await axios.get(`/api/products/${productId}`);
-    const productData: Product = productResult.data;
-    if (productResult.status === 200 && hasRequiredKeys(productData, productKeys)) {
+    const productResult = await axios(`${process.env.BASE_URL_ERP}/api/shop_inventory/${productId}`);
+    if (productResult.status === 200 && hasRequiredKeys(productResult.data, productKeys)) {
+      const productData: Product = productResult.data;
       return productData;
     } else {
       throw { status: 404, message: `Product not found` };
+    }
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+};
+
+export const getCategoriesDal = async () => {
+  try {
+    const categoriesResult = await axios.get(`${process.env.BASE_URL_ERP}/api/shop_inventory/categories`);
+    const categoriesData = categoriesResult.data;
+    type Category = {
+      name: string;
+      id: string;
+    };
+    const categoriesNames: Category[] = [];
+    if (categoriesResult.status === 200) {
+      for (let i = 0; i < categoriesData.length; i++) {
+        categoriesNames.push({
+          name: categoriesData[i].name,
+          id: categoriesData[i]._id,
+        });
+      }
+      return categoriesNames;
+    } else {
+      throw { status: 404, message: `Categories not found` };
     }
   } catch (error) {
     console.error(error);
@@ -36,19 +56,16 @@ export const getProductDal = async (productId: string) => {
 
 export const similarProductsDal = async (categoryName: string, quantity: number) => {
   try {
-    const productsFromBannerServer = await axios(
-      `https://beckend-banners-deploy.onrender.com/api/categoryName`,
-      {
-        params: {
-          categoryName,
-          quantity,
-        },
-      }
-    );
+    const productsFromBannerServer = await axios(`${process.env.BASE_URL_BANNERS}/api/recommended/categoryName`, {
+      params: {
+        categoryName,
+        quantity,
+      },
+    });
     const bannerProductsList: Product[] = productsFromBannerServer.data;
     return bannerProductsList;
-  } catch (err) {
-    console.error(err);
-    return Promise.reject(err);
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
   }
 };

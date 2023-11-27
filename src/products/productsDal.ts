@@ -1,15 +1,12 @@
 import axios from "axios";
 import { Product, productKeys } from "../helpers/types";
+import { hasRequiredKeys } from "../helpers/function";
 
 export const getAllProductsDal = async () => {
   try {
-<<<<<<< HEAD
-    const productsResult = await axios(`${process.env.BASE_URL_ERP}/api/shop_inventory`);
-=======
     const productsResult = await axios.get(
       `${process.env.BASE_URL_ERP}/api/shop_inventory/`
     );
->>>>>>> develop
     const products: Product[] = productsResult.data;
     return products;
   } catch (error) {
@@ -22,9 +19,6 @@ export const getProductDal = async (productId: string) => {
   try {
     const productResult = await axios(`${process.env.BASE_URL_ERP}/api/shop_inventory/${productId}`);
     const productData: Product = productResult.data;
-<<<<<<< HEAD
-    return productData;
-=======
     if (
       productResult.status === 200 &&
       hasRequiredKeys(productData, productKeys)
@@ -33,7 +27,6 @@ export const getProductDal = async (productId: string) => {
     } else {
       throw { status: 404, message: `Product not found` };
     }
->>>>>>> develop
   } catch (error) {
     console.error(error);
     return Promise.reject(error);

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { getAllProductsService, getProductService, similarProductsService, categoriesService } from "./productsService";
 import { handleError } from "../helpers/handleErrors";
+import { log } from "console";
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {

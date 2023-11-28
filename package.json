@@ -2,15 +2,15 @@
   "name": "stor-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/server.ts",
+  "main": "./src/server.ts", 
   "scripts": {
     "test": "jest",
     "start": "node .",
     "dev": "nodemon --exec ts-node src/server.ts",
     "build": "tsc -w",
     "lint": "eslint  **/*.{ts,tsx}  --quiet"
-  },
-  "author": "",
+  },      
+  "author": "",        
   "license": "ISC",
   "dependencies": {
     "@types/cors": "^2.8.16",

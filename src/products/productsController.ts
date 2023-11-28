@@ -8,12 +8,16 @@ import {
 import { handleError } from "../helpers/handleErrors";
 
 export const getAllProducts = async (req: Request, res: Response) => {
-  try { 
-    const productsData = await getAllProductsService(req.params.categoryId);
-    res.status(201).json(productsData);
+  try {
+    const productsData = req.params.categoryName
+      ? await getAllProductsService(req.params.categoryName)
+      : await getAllProductsService();
+    // console.log(productsData);
+    console.log()
+    res.status(200).json(productsData);
   } catch (error) {
-    return handleError(res, error, 401); 
-  }  
+    return handleError(res, error, 401);
+  }
 };
 
 export const getProduct = async (req: Request, res: Response) => {
@@ -42,7 +46,10 @@ export const similarProducts = async (req: Request, res: Response) => {
   try {
     const { categoryName, quantity } = req.query;
     if (typeof categoryName === `string` && quantity) {
-      const bannerProductsList = await similarProductsService(categoryName, Number(quantity));
+      const bannerProductsList = await similarProductsService(
+        categoryName,
+        Number(quantity)
+      );
       res.status(201).json(bannerProductsList);
     }
   } catch (error) {

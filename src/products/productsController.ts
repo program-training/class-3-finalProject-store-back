@@ -29,8 +29,10 @@ export const getProduct = async (req: Request, res: Response) => {
   }
 };
 
-export const categories = async (req: Request, res: Response) => {
+export const getCategories = async (req: Request, res: Response) => {
   try {
+    console.log("ppp");
+    
     const categories = await categoriesService();
     if (categories) {
       res.status(200).json(categories);

@@ -3,7 +3,7 @@ import { getAllProducts, getProduct, similarProducts, categories } from "./produ
 
 const router = express.Router();
  
-router.get(`/`, getAllProducts);
+router.get(`/:categoryName?`, getAllProducts);
 router.get(`/product/:productId`, getProduct);
 router.get(`/categories`, categories)
 router.get(`/banners`, similarProducts);

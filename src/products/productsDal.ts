@@ -2,10 +2,12 @@ import axios from "axios";
 import { Product, productKeys } from "../helpers/types";
 import { hasRequiredKeys } from "../helpers/function";
 
-export const getAllProductsDal = async (categoryId?: string) => {
+export const getAllProductsDal = async (categoryName?: string) => {
   try {
-    const url = categoryId
-      ? `${process.env.BASE_URL_ERP}/api/shop_inventory/category/${categoryId}`
+    console.log(categoryName);
+
+    const url = categoryName
+      ? `${process.env.BASE_URL_ERP}/api/shop_inventory/categories/${categoryName}`
       : `${process.env.BASE_URL_ERP}/api/shop_inventory`;
     const productsResult = await axios.get(url);
     const products: Product | Product[] = productsResult.data;

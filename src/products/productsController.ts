@@ -9,8 +9,8 @@ import { handleError } from "../helpers/handleErrors";
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const productsData = req.params.categoryId
-      ? await getAllProductsService(req.params.categoryId)
+    const productsData = req.params.categoryName
+      ? await getAllProductsService(req.params.categoryName)
       : await getAllProductsService();
     // console.log(productsData);
     console.log()

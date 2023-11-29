@@ -29,7 +29,7 @@ interface User {
 interface Category {}
 
 interface Order {
-  id: string;
+  id?: string;
   cartItems: OrderProduct[];
   orderTime: string;
   status: string;
@@ -44,8 +44,8 @@ interface OrderProduct {
   quantity: number;
 }
 interface ShippingDetails {
-  address: string;
   userId: number;
+  address: string;
   contactNumber: string;
   orderType: string;
 }

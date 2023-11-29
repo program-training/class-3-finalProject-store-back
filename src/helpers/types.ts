@@ -1,8 +1,3 @@
-interface CartItem {
-  productId: string;
-  quantity: number;
-}
-
 interface Product {
   name: string;
   salePrice: number;
@@ -15,6 +10,12 @@ interface Product {
     alt: string;
   };
 }
+
+interface CartItem {
+  userId: string;
+  items: Product[];
+}
+
 interface Checkout {
   orderId: string;
   cartItems: CartItem[];
@@ -26,7 +27,12 @@ interface User {
   password: string;
 }
 
-interface Category {}
+interface Category {
+  _id: string;
+  name: string;
+  img: string;
+  __v: number;
+}
 
 interface Order {
   id?: string;
@@ -49,7 +55,33 @@ interface ShippingDetails {
   contactNumber: string;
   orderType: string;
 }
-const orderKeys = ["id", "cartItems", "orderTime", "status", "price", "shippingDetails"];
-const productKeys = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];
+const orderKeys = [
+  "id",
+  "cartItems",
+  "orderTime",
+  "status",
+  "price",
+  "shippingDetails",
+];
+const productKeys = [
+  "name",
+  "salePrice",
+  "quantity",
+  "description",
+  "category",
+  "discountPercentage",
+  "image",
+];
 
-export { CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, orderKeys, productKeys };
+export {
+  CartItem,
+  Checkout,
+  User,
+  Product,
+  Category,
+  Order,
+  OrderProduct,
+  ShippingDetails,
+  orderKeys,
+  productKeys,
+};

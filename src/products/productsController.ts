@@ -1,11 +1,20 @@
 import { Request, Response } from "express";
-import { categoriesService, getAllProductsService, getProductService, similarProductsService } from "./productsService";
+import {
+  categoriesService,
+  getAllProductsService,
+  getProductService,
+  similarProductsService,
+} from "./productsService";
 import { handleError } from "../helpers/handleErrors";
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const productsData = await getAllProductsService();
-    res.status(201).json(productsData);
+    const productsData = req.params.categoryName
+      ? await getAllProductsService(req.params.categoryName)
+      : await getAllProductsService();
+    // console.log(productsData);
+    console.log()
+    res.status(200).json(productsData);
   } catch (error) {
     return handleError(res, error, 401);
   }
@@ -20,8 +29,10 @@ export const getProduct = async (req: Request, res: Response) => {
   }
 };
 
-export const categories = async (req: Request, res: Response) => {
+export const getCategories = async (req: Request, res: Response) => {
   try {
+    console.log("ppp");
+    
     const categories = await categoriesService();
     if (categories) {
       res.status(200).json(categories);
@@ -35,9 +46,14 @@ export const categories = async (req: Request, res: Response) => {
 
 export const similarProducts = async (req: Request, res: Response) => {
   try {
-    const { categoryName, quantity } = req.body;
-    const bannerProductsList = await similarProductsService(categoryName, quantity);
-    res.status(201).json(bannerProductsList);
+    const { categoryName, quantity } = req.query;
+    if (typeof categoryName === `string` && quantity) {
+      const bannerProductsList = await similarProductsService(
+        categoryName,
+        Number(quantity)
+      );
+      res.status(201).json(bannerProductsList);
+    }
   } catch (error) {
     handleError(res, error, 401);
   }

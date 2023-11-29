@@ -1,10 +1,16 @@
 import { CartItem } from "../helpers/types";
-import { getCartDal, setCartDal } from "./cartsDal";
+import { addItemDal, deleteItemDal, getCartDal } from "./cartsDal";
 
 export const getCartService = async (userId: string) => {
+  console.log("lll");
+
   return await getCartDal(userId);
 };
 
-export const setCartService = async (cart: CartItem) => {
-  return await setCartDal(cart);
+export const addItemService = async (newCartItem: CartItem) => {
+  return await addItemDal(newCartItem);
+};
+
+export const deleteItemService = async (productId: string, userId: string) => {
+  return await deleteItemDal(productId, userId);
 };

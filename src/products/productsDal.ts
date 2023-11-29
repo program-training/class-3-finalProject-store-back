@@ -4,15 +4,11 @@ import { hasRequiredKeys } from "../helpers/function";
 
 export const getAllProductsDal = async (categoryName?: string) => {
   try {
-    console.log(categoryName);
-
     const url = categoryName
       ? `${process.env.BASE_URL_ERP}/api/shop_inventory/categories/${categoryName}`
       : `${process.env.BASE_URL_ERP}/api/shop_inventory`;
     const productsResult = await axios.get(url);
     const products: Product | Product[] = productsResult.data;
-    // console.log(products);
-
     return products;
   } catch (error) {
     console.error(error);
@@ -45,7 +41,7 @@ export const getCategoriesDal = async () => {
     const categoriesResult = await axios.get(url);
     const categoriesData: Category[] = categoriesResult.data;
     console.log(categoriesData);
-    
+
     if (categoriesResult.status === 200) {
       return categoriesData;
     } else {

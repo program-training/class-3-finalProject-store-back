@@ -1,4 +1,5 @@
 interface Product {
+  _id: string;
   name: string;
   salePrice: number;
   quantity: number;
@@ -13,7 +14,7 @@ interface Product {
 
 interface CartItem {
   userId: string;
-  items: Product[];
+  product: Product;
 }
 
 interface Checkout {
@@ -34,6 +35,14 @@ interface Category {
   __v: number;
 }
 
+interface OrderProduct {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+}
+
 interface Order {
   id: string;
   cartItems: OrderProduct[];
@@ -42,19 +51,14 @@ interface Order {
   price: number;
   shippingDetails: ShippingDetails;
 }
-interface OrderProduct {
-  _id: string;
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-}
+
 interface ShippingDetails {
   address: string;
   userId: number;
   contactNumber: string;
   orderType: "Pickup" | "Express" | "Shipping";
 }
+
 const orderKeys = [
   "id",
   "cartItems",
@@ -63,6 +67,7 @@ const orderKeys = [
   "price",
   "shippingDetails",
 ];
+
 const productKeys = [
   "name",
   "salePrice",

@@ -1,13 +1,22 @@
 import {
   getAllProductsDal,
+  getCategoriesDal,
   getProductDal,
   similarProductsDal,
 } from "./productsDal";
 
-export const getAllProductsService = async () => await getAllProductsDal();
+export const getAllProductsService = async (categoryName?: string) => {
+  return categoryName
+    ? await getAllProductsDal(categoryName)
+    : await getAllProductsDal();
+};
 
-export const productGetService = async (productId: string) =>
+export const getProductService = async (productId: string) =>
   await getProductDal(productId);
+
+export const categoriesService = async () => {
+  return await getCategoriesDal();
+};
 
 export const similarProductsService = async (
   categoryName: string,

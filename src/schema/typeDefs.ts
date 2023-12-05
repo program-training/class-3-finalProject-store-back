@@ -1,6 +1,8 @@
 const typeDefs = `#graphql
 type Image {
-  url: String!
+  large: String!
+  medium: String!
+  small: String!
   alt: String!
 }
 
@@ -62,6 +64,16 @@ type Order {
   shippingDetails: ShippingDetails!
 }
 
+input UserInput {
+  email: String
+  password: String
+}
+
+input DeleteCartInput {
+  productId: String
+  userId: String
+  }
+
 enum OrderStatus {
   PENDING
   DELIVERED
@@ -79,12 +91,15 @@ type Query {
   getProduct(productId: ID!): Product
   getCategories: [Category]!
   similarProducts(categoryName: String, quantity: Int): [Product]!
-  getOrderByUser(userId: String!):Order
+  getOrderByUser(userId: String!): Order
+  getCartByUser(userId: String!): [Cart]
 }
 
 type Mutation {
-    regestier(user: User!): string
-    login(user: User!): string
-    postOrderCart(order: Order!) Order!
-    }
+  register(userInput: UserInput!): String
+  login(userInput: UserInput!): String
+  postOrderCart(order: Order!): Order
+  addCartItem( cartItem: CartItem!): cartItem
+  deleteCartItem(deleteCartInput: DeleteCartInput ): cartItem
+}
 `;

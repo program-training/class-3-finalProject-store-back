@@ -9,7 +9,7 @@ const isExist = async (productId: string, userId: string) => {
   return item ? item : null;
 };
 
-export const getCartDal = async (userId: string) => {
+const getCartDal = async (userId: string) => {
   try {
     const cartItems = await CartItemModel.find({ userId });
     if (!cartItems) throw Error(`Cart not found`);
@@ -22,7 +22,7 @@ export const getCartDal = async (userId: string) => {
   }
 };
 
-export const addItemDal = async (newCartItem: CartItem) => {
+const addItemDal = async (newCartItem: CartItem) => {
   try {
     const item = await isExist(newCartItem.product._id, newCartItem.userId);
     if (item) {
@@ -40,7 +40,7 @@ export const addItemDal = async (newCartItem: CartItem) => {
   }
 };
 
-export const deleteItemDal = async (productId: string, userId: string) => {
+const deleteItemDal = async (productId: string, userId: string) => {
   try {
     const item = await isExist(productId, userId);
     if (item) {
@@ -59,3 +59,9 @@ export const deleteItemDal = async (productId: string, userId: string) => {
     throw new Error("Internal Server Error");
   }
 };
+const carts = {
+  deleteItemDal,
+  addItemDal,
+  getCartDal,
+};
+export default carts

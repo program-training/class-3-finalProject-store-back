@@ -15,7 +15,7 @@ export const resolvers = {
     async getProducts() {
       return await ProductModel.find();
     },
-    async findById(_, { _id }: { _id: String }) {
+    async findById(_, { _id }: { _id: string }) {
       return await ProductModel.findById(_id);
     },
   },
@@ -31,14 +31,14 @@ export const resolvers = {
     },
     async updateProduct(
       _,
-      { productData, _id }: { productData: Product; _id: String }
+      { productData, _id }: { productData: Product; _id: string }
     ) {
       const product = await ProductModel.findByIdAndUpdate(_id, productData);
       await product?.save();
       console.log("updating product, ", productData);
       return product;
     },
-    async deleteProduct(_, { _id }: { _id: String }) {
+    async deleteProduct(_, { _id }: { _id: string }) {
       console.log("deleting product, ", _id);
       const product = await ProductModel.findByIdAndDelete(_id);
       return product;

@@ -1,32 +1,49 @@
 import express from "express";
-import morgan from "morgan";
-import moment from "moment-timezone";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
+import BodyParser from "body-parser";
 import cors from "cors";
-import { connectionToDB } from "./DB/connectionToDB";
-import { authenticateToken } from "./helpers/jwt";
-import usersRouter from "./users/usersRouter";
-import productsRouter from "./products/productsRouter";
-import ordersRouter from "./orders/orderRouter";
-import cartsRouter from "./carts/cartsRouter";
 import dotenv from "dotenv";
+import { typeDefs } from "./graphql/types.js";
+import { resolvers } from "./graphql/resolvers.js";
+import { createServer } from "http";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { WebSocketServer } from "ws";
+import { useServer } from "graphql-ws/lib/use/ws";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { connectionToDB } from "./DB/connectionToDB.js";
 
 dotenv.config();
-
 const app = express();
-morgan.token("date", function () {
-  return moment().tz("Israel").format("DD/MMM/YYYY HH:mm:ss ZZ");
+const httpServer = createServer(app);
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+const wsServer = new WebSocketServer({
+  server: httpServer,
+  path: "/graphql",
 });
+const serverCleanup = useServer({ schema }, wsServer);
+const apolloServer = new ApolloServer({
+  schema,
+  plugins: [
+    ApolloServerPluginDrainHttpServer({ httpServer }),
+    {
+      async serverWillStart() {
+        return {
+          async drainServer() {   
+            await serverCleanup.dispose();
+          },
+        };
+      },
+    },
+  ],
+});
+await apolloServer.start();
 
 app.use(cors());
-app.use(morgan(`[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms`));
-app.use(express.json());
-app.use(authenticateToken);
-app.use("/users", usersRouter);
-app.use("/products", productsRouter);
-app.use("/orders", ordersRouter);
-app.use("/carts", cartsRouter);
+app.use("/graphql", cors(), BodyParser.json(), expressMiddleware(apolloServer));
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 3000;
+httpServer.listen(PORT, () => {
+  console.log(`server is listening on port ${PORT}`);
   connectionToDB();
 });

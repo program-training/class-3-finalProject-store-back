@@ -1,32 +1,61 @@
 import { CartItemModel } from "../DB/models/cartModel";
 import { CartItem } from "../helpers/types";
 
+const isExist = async (productId: string, userId: string) => {
+  const item = await CartItemModel.findOne({
+    "product._id": productId,
+    userId: userId,
+  });
+  return item ? item : null;
+};
+
 export const getCartDal = async (userId: string) => {
   try {
-    const cartFromDB = await CartItemModel.findOne({ userId: userId });
-    console.log(cartFromDB);
-    if (!cartFromDB) throw Error(`Cart not found`);
-    return cartFromDB;
-  } catch (err) {
-    return Promise.reject(err);
+    const cartItems = await CartItemModel.find({ userId });
+    if (!cartItems) throw Error(`Cart not found`);
+    console.log(cartItems);
+
+    return cartItems;
+  } catch (error) {
+    console.error("Error retrieving cart items:", error);
+    throw new Error("Internal Server Error");
   }
 };
 
-export const setCartDal = async (cart: CartItem) => {
-  const { userId, items } = cart;
+export const addItemDal = async (newCartItem: CartItem) => {
   try {
-    const updatedCart = await CartItemModel.findOneAndUpdate(
-      { userId : userId},
-      { $set: { items } },
-      { new: true }
-    );
-    if (!updatedCart) {
-      throw new Error(`Cart not found for userId: ${userId}`);
+    const item = await isExist(newCartItem.product._id, newCartItem.userId);
+    if (item) {
+      item.product.quantity += 1;
+      const updatedItem = await item.save();
+      return updatedItem;
+    } else {
+      const cartItemInstance = new CartItemModel(newCartItem);
+      const createdCartItem = await cartItemInstance.save();
+      return createdCartItem;
     }
-    console.log("Cart updated successfully:", updatedCart);
-    return updatedCart; 
-  } catch (err) { 
-    console.error("Error updating cart:", err);
-    throw err;
+  } catch (error) {
+    console.error("Error creating cart item:", error);
+    throw new Error("Internal Server Error");
+  }
+};
+
+export const deleteItemDal = async (productId: string, userId: string) => {
+  try {
+    const item = await isExist(productId, userId);
+    if (item) {
+      item.product.quantity -= 1;
+      const updatedItem = await item.save();
+      return updatedItem;
+    } else {
+      const deletedCartItem = await CartItemModel.deleteOne({
+        "product._id": productId,
+        userId: userId,
+      });
+      return deletedCartItem;
+    }
+  } catch (error) {
+    console.error("Error deleting cart item:", error);
+    throw new Error("Internal Server Error");
   }
 };

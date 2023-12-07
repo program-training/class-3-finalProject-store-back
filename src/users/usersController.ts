@@ -24,6 +24,7 @@ export const userLogin = async (req: Request, res: Response) => {
     if (error) throw Error(error.details[0].message);
     const userTokenFromDB = await userLoginService(user);
     res.status(200).json(userTokenFromDB);
+    console.log(userTokenFromDB);
   } catch (error) {
     return handleError(res, error, 401);
   }

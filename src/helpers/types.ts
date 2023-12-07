@@ -1,5 +1,9 @@
+interface CartItem {
+  productId: string;
+  quantity: number;
+}
+
 interface Product {
-  _id: string;
   name: string;
   salePrice: number;
   quantity: number;
@@ -11,12 +15,6 @@ interface Product {
     alt: string;
   };
 }
-
-interface CartItem {
-  userId: string;
-  product: Product;
-}
-
 interface Checkout {
   orderId: string;
   cartItems: CartItem[];
@@ -28,21 +26,21 @@ interface User {
   password: string;
 }
 
-interface Category {
-  _id: string;
-  name: string;
-  img: string;
-  __v: number;
-}
+interface Category {}
 
 interface OrderProduct {
-  _id: string;
+  id: string;
   name: string;
   description: string;
   price: number;
   quantity: number;
 }
-
+interface ShippingDetails {
+  userId: number;
+  address: string;
+  contactNumber: string;
+  orderType: string;
+}
 interface Order {
   id?: string;
   cartItems: OrderProduct[];
@@ -51,52 +49,23 @@ interface Order {
   price: number;
   shippingDetails: ShippingDetails;
 }
-<<<<<<< HEAD
-interface OrderProduct {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
+interface Time {
+  time: {
+    date: {
+      year: number;
+      month: number;
+      day: number;
+    };
+    hour: number;
+  }
 }
-=======
-
->>>>>>> develop
-interface ShippingDetails {
-  userId: number;
-  address: string;
-  contactNumber: string;
-  orderType: string;
+interface CartReport {
+  _id?: string
+  user_id: string
+  product_id: string
+  time: Time
 }
+const orderKeys = ["id", "cartItems", "orderTime", "status", "price", "shippingDetails"];
+const productKeys = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];
 
-const orderKeys = [
-  "id",
-  "cartItems",
-  "orderTime",
-  "status",
-  "price",
-  "shippingDetails",
-];
-
-const productKeys = [
-  "name",
-  "salePrice",
-  "quantity",
-  "description",
-  "category",
-  "discountPercentage",
-  "image",
-];
-
-export {
-  CartItem,
-  Checkout,
-  User,
-  Product,
-  Category,
-  Order,
-  OrderProduct,
-  ShippingDetails,
-  orderKeys,
-  productKeys,
-};
+export { CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, CartReport, Time, orderKeys, productKeys };

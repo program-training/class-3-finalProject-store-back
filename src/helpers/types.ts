@@ -1,9 +1,10 @@
 interface CartItem {
-  productId: string;
-  quantity: number;
+  userId: string;
+  product: Product;
 }
 
 interface Product {
+  _id: string
   name: string;
   salePrice: number;
   quantity: number;

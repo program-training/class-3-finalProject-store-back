@@ -8,6 +8,7 @@ import usersRouter from "./users/usersRouter";
 import productsRouter from "./products/productsRouter";
 import ordersRouter from "./orders/orderRouter";
 import cartsRouter from "./carts/cartsRouter";
+import cartReportsRouter from "./triggers/triggersRouter";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -23,10 +24,11 @@ app.use(express.json());
 app.use(authenticateToken);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
-app.use("/orders", ordersRouter);
-app.use("/carts", cartsRouter);
+app.use("/orders", ordersRouter);  
+app.use("/carts", cartsRouter);  
+app.use("/triggers", cartReportsRouter);  
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
   connectionToDB();
-});
+}); 

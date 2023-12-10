@@ -2,7 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import moment from "moment-timezone";
 import cors from "cors";
-import { connectionToMongoDB } from "./monggoDB/connectionToDB";
+import { connectionToMongoDB } from "./mongoDB/connectionToMongoDB";
 import { authenticateToken } from "./helpers/jwt";
 import usersRouter from "./users/usersRouter";
 import productsRouter from "./products/productsRouter";

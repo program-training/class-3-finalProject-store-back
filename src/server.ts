@@ -2,7 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import moment from "moment-timezone";
 import cors from "cors";
-import { connectionToDB } from "./DB/connectionToDB";
+import { connectionToMongoDB } from "./monggoDB/connectionToDB";
 import { authenticateToken } from "./helpers/jwt";
 import usersRouter from "./users/usersRouter";
 import productsRouter from "./products/productsRouter";
@@ -10,6 +10,7 @@ import ordersRouter from "./orders/orderRouter";
 import cartsRouter from "./carts/cartsRouter";
 import cartReportsRouter from "./triggers/triggersRouter";
 import dotenv from "dotenv";
+import connectionToPostgresDB from "./postgresDB/postgres";
 
 dotenv.config();
 
@@ -24,11 +25,12 @@ app.use(express.json());
 app.use(authenticateToken);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
-app.use("/orders", ordersRouter);  
-app.use("/carts", cartsRouter);  
-app.use("/triggers", cartReportsRouter);  
+app.use("/orders", ordersRouter);
+app.use("/carts", cartsRouter);
+app.use("/triggers", cartReportsRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
-  connectionToDB();
-}); 
+  connectionToMongoDB();
+  connectionToPostgresDB();
+});

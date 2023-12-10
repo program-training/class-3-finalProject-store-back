@@ -1,5 +1,5 @@
 import { CartReport } from "../helpers/types";
-import { CartReportsModel } from "../monggoDB/models/cartReportModel";
+import { CartReportsModel } from "../mongoDB/models/cartReportModel";
 
 export const getTimeTriggerDal = async () => {
   try {

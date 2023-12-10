@@ -1,4 +1,4 @@
-import { userRegisterDal, userLoginDal, getUserTriggerDal } from "./usersDal";
+import { userRegisterDal, userLoginDal } from "./usersDal";
 import { User } from "../helpers/types";
 import { encryptPassword } from "../helpers/bcrypt";
 
@@ -10,4 +10,3 @@ export const userRegisterService = async (user: User) => {
 
 export const userLoginService = async (user: User) => await userLoginDal(user);
 
-export const getUserTriggerService = async () => await getUserTriggerDal();

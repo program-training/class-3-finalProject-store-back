@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { userRegisterService, userLoginService, getUserTriggerService } from "./usersServices";
+import { userRegisterService, userLoginService } from "./usersServices";
 import { User } from "../helpers/types";
 import { userValidator } from "../helpers/joi";
 import { handleError } from "../helpers/handleErrors";
@@ -30,11 +30,3 @@ export const userLogin = async (req: Request, res: Response) => {
   }
 };
 
-export const userReportsRouter = async (req: Request, res: Response) => {
-    try {
-      const timeTrigger = await getUserTriggerService();
-      res.status(200).json(timeTrigger);
-    } catch (error) {
-      return handleError(res, error, 401);
-    }
-};

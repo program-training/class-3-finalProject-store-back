@@ -45,19 +45,3 @@ export const userLoginDal = async (user: User) => {
   }
 };
 
-export const getUserTriggerDal = async () => {
-  const client = await pool.connect();
-  try {
-    const trigerr = await client.query(`SELECT  hours FROM usersReports`);
-    if (!trigerr.rows) {
-      throw new Error(`trigerr not found`);
-    } else {
-      return trigerr.rows;
-    }
-  } catch (error) {
-    console.log(error);
-    return Promise.reject(error);
-  } finally {
-    client.release();
-  }
-};

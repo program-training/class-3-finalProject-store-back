@@ -1,4 +1,4 @@
-import { CartItemModel } from "../DB/models/cartModel";
+import { CartItemModel } from "../monggoDB/models/cartModel";
 import { CartItem } from "../helpers/types";
 
 const isExist = async (productId: string, userId: string) => {

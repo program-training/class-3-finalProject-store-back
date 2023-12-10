@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const connectionToDB = () => {
+export const connectionToMongoDB = () => {
   mongoose
     .connect(process.env.MONGO_CONNECTION_URI || "", { retryWrites: true, w: "majority" })
     .then(() => {

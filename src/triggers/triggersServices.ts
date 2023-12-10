@@ -1,3 +1,22 @@
 import { getTimeTriggerDal } from "./triggersDal";
 
-export const getTimeTriggerService = async () => await getTimeTriggerDal();
+export const getTimeTriggerService = async () => {
+  try {
+    const timeTriggersData = await getTimeTriggerDal()
+    const timeTriggerObj: Record<number, number> = {}
+    timeTriggersData.forEach(report => {
+     const msDate = report.date
+     const hour = new Date(msDate).getHours()
+     timeTriggerObj[hour] = !timeTriggerObj[hour] ? 1 : timeTriggerObj[hour] + 1
+    })
+    const sortedKeys = Object.keys(timeTriggerObj).sort((a, b) => parseInt(a) - parseInt(b));
+    const sortedTimeTriggerObj: Record<number, number> = {};
+    sortedKeys.forEach(key => {
+      sortedTimeTriggerObj[parseInt(key)] = timeTriggerObj[parseInt(key)];
+    });
+    return sortedTimeTriggerObj
+  } catch (error) {
+    return Promise.reject(error)
+  }
+};
+  

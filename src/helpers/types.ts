@@ -1,3 +1,7 @@
+interface ServerContext  {
+  token?: string
+}
+
 interface CartItem {
   userId: string;
   product: Product;
@@ -69,4 +73,4 @@ interface CartReport {
 const orderKeys = ["id", "cartItems", "orderTime", "status", "price", "shippingDetails"];
 const productKeys = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];
 
-export { CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, CartReport, Time, orderKeys, productKeys };
+export { ServerContext, CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, CartReport, Time, orderKeys, productKeys };

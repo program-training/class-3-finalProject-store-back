@@ -1,11 +1,13 @@
 import { User } from "../helpers/types";
 import { createToken } from "../helpers/jwt";
-import { comparePassword } from "../helpers/bcrypt";
+import { comparePassword, encryptPassword } from "../helpers/bcrypt";
 import { pool } from "../postgresDB/postgres";
 
-export const userRegisterDal = async (user: User) => {
+export const userRegister = async (user: User) => {
   const client = await pool.connect();
-  const { email } = user;
+  const { email, password } = user;
+  const usersPassword = encryptPassword(password);
+  user.password = usersPassword;
   try {
     const uniquenessCheck = await client.query(`select * from users where email = $1`, [email]);
     if (uniquenessCheck.rows) throw Error(`This user is already registered!`);

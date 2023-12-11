@@ -21,6 +21,8 @@ export const userRegisterDal = async (user: User) => {
     }
   } catch (err) {
     return Promise.reject(err);
+  } finally {
+    client.release();
   }
   client.release();
 };
@@ -39,5 +41,8 @@ export const userLoginDal = async (user: User) => {
     return token;
   } catch (err) {
     return Promise.reject(err);
+  } finally {
+    client.release();
   }
 };
+

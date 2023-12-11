@@ -15,8 +15,8 @@ export const getTimeTriggerDal = async () => {
 export const getUserTriggerDal = async () => {
   const client = await pool.connect();
   try {
-    const trigerr = await client.query(`SELECT  time FROM reports`);
-    if (!trigerr.rows) {
+    const trigerr = await client.query(`SELECT  login_time  FROM reports`);
+    if (trigerr.rows.length === 0) {
       throw new Error(`trigerr not found`);
     } else {
       return trigerr.rows;

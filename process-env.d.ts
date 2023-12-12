@@ -8,6 +8,7 @@ declare global {
       BASE_URL_ERP: string;
       BASE_URL_BANNERS: string;
       SECRET: string;
+      GRAPHQL_PATH: string;
       // add more environment variables and their types here
     }
   }

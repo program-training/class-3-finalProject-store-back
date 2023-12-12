@@ -1,6 +1,6 @@
 import axios from "axios";
-import { Order, orderKeys } from "../helpers/types";
-import { hasRequiredKeys } from "../helpers/function";
+import { Order, orderKeys } from "../../helpers/types";
+import { hasRequiredKeys } from "../../helpers/function";
 
 export async function getOrderByUserDal(userId: string) {
   try {

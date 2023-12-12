@@ -1,5 +1,5 @@
 import { User } from "../helpers/types";
-import { UserModel } from "../DB/models/userModel";
+import { UserModel } from "../mongoDB/models/userModel";
 import { createToken } from "../helpers/jwt";
 import { comparePassword } from "../helpers/bcrypt";
 

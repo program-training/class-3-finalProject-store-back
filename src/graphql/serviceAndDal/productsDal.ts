@@ -1,6 +1,6 @@
 import axios from "axios";
-import { Category, Product, productKeys } from "../helpers/types";
-import { hasRequiredKeys } from "../helpers/function";
+import { Category, Product, productKeys } from "../../helpers/types";
+import { hasRequiredKeys } from "../../helpers/function";
 
 export const getAllProductsDal = async (categoryName?: string) => {
   try {

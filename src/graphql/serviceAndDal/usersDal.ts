@@ -1,7 +1,7 @@
-import { User } from "../helpers/types";
-import { createToken } from "../helpers/jwt";
-import { comparePassword, encryptPassword } from "../helpers/bcrypt";
-import { pool } from "../postgresDB/postgres";
+import { User } from "../../helpers/types";
+import { createToken } from "../../helpers/jwt";
+import { comparePassword, encryptPassword } from "../../helpers/bcrypt";
+import { pool } from "../../postgresDB/postgres";
 
 export const userRegister = async (user: User) => {
   const client = await pool.connect();

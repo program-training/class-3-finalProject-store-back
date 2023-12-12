@@ -1,12 +1,12 @@
 import { PubSub } from "graphql-subscriptions";
-import { getAllProductsDal, getProductDal } from "../products/productsDal";
+import { getAllProductsDal, getProductDal } from "./serviceAndDal/productsDal";
 import { ProductModel } from "../mongoDB/models/productModel";
 import { Product, User } from "../helpers/types";
 import { userValidator } from "../helpers/joi";
 import { encryptPassword } from "../helpers/bcrypt";
 import { UserModel } from "../mongoDB/models/userModel";
 import { createToken } from "../helpers/jwt";
-import {userRegister} from "../users/usersDal"
+import {userRegister} from "./serviceAndDal/usersDal"
 
 const pubsub = new PubSub();
 export const resolvers = {

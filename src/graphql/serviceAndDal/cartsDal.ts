@@ -1,5 +1,5 @@
-import { CartItemModel } from "../mongoDB/models/cartModel";
-import { CartItem } from "../helpers/types";
+import { CartItemModel } from "../../mongoDB/models/cartModel";
+import { CartItem } from "../../helpers/types";
 
 const isExist = async (productId: string, userId: string) => {
   const item = await CartItemModel.findOne({

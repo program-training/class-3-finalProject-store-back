@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     def pullRequestBranch = env.GITHUB_PR_SOURCE_BRANCH
-                    checkout([$class: 'GitSCM', branches: [[name: "*/${pullRequestBranch}"]], userRemoteConfigs: [[url: 'https://github.com/program-training/class-3-finalProject-store-front.git']]])
+                    checkout([$class: 'GitSCM', branches: [[name: "*/${pullRequestBranch}"]], userRemoteConfigs: [[url: 'https://github.com/program-training/class-3-finalProject-store-back.git']]])
                 }
             }
         }
@@ -24,7 +24,7 @@ pipeline {
                 }
             }
         }
-        stage('client lint') {
+        stage('server lint') {
             steps {
                 script {
                     sh 'echo "linting..."'
@@ -39,7 +39,7 @@ pipeline {
                 echo 'Linting passed. You may now merge.'
                 setGitHubPullRequestStatus(
                     state: 'SUCCESS',
-                    context: 'class3_store_front_lint',
+                    context: 'class3_store_back_lint',
                     message: 'lint passed',
                 )
             }
@@ -49,7 +49,7 @@ pipeline {
                 echo 'Pipeline failed. Blocking pull request merge.'
                 setGitHubPullRequestStatus(
                     state: 'FAILURE',
-                    context: 'class3_store_front_lint',
+                    context: 'class3_store_back_lint',
                     message: 'lint failed. Run npm run lint to see errors',
                 )
             }

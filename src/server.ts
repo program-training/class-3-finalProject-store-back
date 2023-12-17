@@ -37,7 +37,7 @@ const start = async () => {
       },
     })
   );
-  await new Promise<void>(resolve => httpServer.listen({ port: process.env.PORT }, resolve));
+  await new Promise<void>((resolve) => httpServer.listen({ port: process.env.PORT }, resolve));
   console.log(`Server is running on port ${process.env.PORT}`);
   connectionToMongoDB();
   connectionToPostgresDB();

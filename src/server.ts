@@ -14,13 +14,14 @@ import morgan from "morgan";
 import moment from "moment-timezone";
 
 dotenv.config();
-const app = express();
-const httpServer = http.createServer(app);
-const server = new ApolloServer<ServerContext>({ typeDefs, resolvers, plugins: [ApolloServerPluginDrainHttpServer({ httpServer })] });
 
 morgan.token("date", function () {
   return moment().tz("Israel").format("DD/MMM/YYYY HH:mm:ss ZZ");
 });
+
+const app = express();
+const httpServer = http.createServer(app);
+const server = new ApolloServer<ServerContext>({ typeDefs, resolvers, plugins: [ApolloServerPluginDrainHttpServer({ httpServer })] });
 
 const start = async () => {
   await server.start();

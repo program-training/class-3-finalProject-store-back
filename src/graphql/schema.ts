@@ -87,6 +87,7 @@ input CartItemUpdateInput {
 }
 
 input UserInput {
+  _id: String
   email: String
   password: String
 }

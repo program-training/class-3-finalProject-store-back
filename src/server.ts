@@ -11,7 +11,7 @@ import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHt
 import http from "http";
 import { ServerContext } from "./helpers/types";
 import morgan from "morgan";
-import moment from "moment-timezone"
+import moment from "moment-timezone";
 
 dotenv.config();
 const app = express();
@@ -21,7 +21,6 @@ const server = new ApolloServer<ServerContext>({ typeDefs, resolvers, plugins: [
 morgan.token("date", function () {
   return moment().tz("Israel").format("DD/MMM/YYYY HH:mm:ss ZZ");
 });
-
 
 const start = async () => {
   await server.start();
@@ -37,12 +36,10 @@ const start = async () => {
       },
     })
   );
-  await new Promise<void>(resolve => httpServer.listen({ port: process.env.PORT }, resolve));
+  await new Promise<void>((resolve) => httpServer.listen({ port: process.env.PORT }, resolve));
   console.log(`Server is running on port ${process.env.PORT}`);
   connectionToMongoDB();
   connectionToPostgresDB();
 };
 
 start();
-
-

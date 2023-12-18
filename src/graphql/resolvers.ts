@@ -1,5 +1,5 @@
 import { PubSub } from "graphql-subscriptions";
-import { CartItem, Order, User } from "../helpers/types";
+import { CartItem, Order, User, UserInput } from "../helpers/types";
 import { userValidator } from "../helpers/joi";
 import { userLoginDal, userRegister } from "./serviceAndDal/usersDal";
 import { getAllProductsDal, getCategoriesDal, getProductDal, similarProductsDal } from "./serviceAndDal/productsDal";
@@ -7,8 +7,7 @@ import carts from "./serviceAndDal/cartsDal";
 import { getOrderByUserDal, postOrderDal } from "./serviceAndDal/orderDal";
 
 const pubsub = new PubSub();
-
-export const resolvers = {
+const resolvers = {
   Query: {
     getAllProducts: async (_: unknown, arg: { categoryName: string | undefined }) => {
       try {
@@ -28,6 +27,7 @@ export const resolvers = {
         }
       }
     },
+
     getCategories: async () => {
       try {
         return await getCategoriesDal();
@@ -46,6 +46,7 @@ export const resolvers = {
         }
       }
     },
+
     getCartByUser: async (_: unknown, userId: string) => {
       try {
         return await carts.getCartDal(userId);
@@ -66,6 +67,7 @@ export const resolvers = {
       }
     },
   },
+
   Mutation: {
     addCartItem: async (_: unknown, newCartItem: CartItem) => {
       try {
@@ -87,9 +89,15 @@ export const resolvers = {
         }
       }
     },
-    register: async (_: unknown, user: User) => {
+
+    register: async (_: unknown, user: UserInput) => {
       try {
-        const token = await userRegister(user);
+        const { email, password } = user.userInput;
+        const userInput = {
+          email,
+          password,
+        };
+        const token = await userRegister(userInput);
         return { token };
       } catch (error) {
         if (error instanceof Error) {
@@ -97,7 +105,8 @@ export const resolvers = {
         }
       }
     },
-    login: async (_: unknown, user: User) => {
+
+    login: async (_: unknown, user: UserInput) => {
       try {
         const token = await userLoginDal(user);
         return { token };
@@ -107,6 +116,7 @@ export const resolvers = {
         }
       }
     },
+
     postOrderCart: async (_: unknown, order: Order) => {
       try {
         const newOrder = await postOrderDal(order);

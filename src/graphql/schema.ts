@@ -1,4 +1,4 @@
-export const typeDefs = `#graphql
+const typeDefs = `#graphql
 type Image {
   large: String!
   medium: String!
@@ -81,13 +81,16 @@ type Order {
   shippingDetails: ShippingDetails!
 }
 
+type Token {
+token: String!
+}
+
 input CartItemUpdateInput {
    _id: String
    product: ProductInput
 }
 
 input UserInput {
-  _id: String
   email: String
   password: String
 }
@@ -119,10 +122,11 @@ type Query {
 }
 
 type Mutation {
-  register(userInput: UserInput!): String
-  login(userInput: UserInput!): String
+  register(userInput: UserInput!): Token!
+  login(userInput: UserInput!):Token!
   postOrderCart(order: CartItemUpdateInput!): CartItem
   addCartItem( cartItem: CartItemUpdateInput!): CartItem
   deleteCartItem(deleteCartInput: DeleteCartInput ): CartItem
 }
 `;
+export default typeDefs;

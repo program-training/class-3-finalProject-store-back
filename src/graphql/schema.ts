@@ -133,7 +133,7 @@ type Query {
   getOrderByUser(userId: String!): Order
   getCartByUser(userId: String!): [CartItem]
   getTrrigerCart: TrrigerCart
-  getTrrigerPostgres: TrrigerPostgres
+  getTriggerPostgres: TrrigerPostgres
 
 }
 

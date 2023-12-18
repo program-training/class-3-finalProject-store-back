@@ -14,7 +14,7 @@ export const getTimeTriggerDal = async () => {
   }
 };
 
-export const getTrrigerPostgres = async (): Promise<{ [hour: string]: number }> => {
+export const getTrrigerPostgresDal = async (): Promise<{ [hour: string]: number }> => {
   const client = await pool.connect();
   console.log(222);
   try {

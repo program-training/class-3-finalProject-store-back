@@ -10,7 +10,7 @@ import {
 } from "./serviceAndDal/productsDal";
 import carts from "./serviceAndDal/cartsDal";
 import { getOrderByUserDal, postOrderDal } from "./serviceAndDal/orderDal";
-import { getTimeTriggerDal, getTrrigerPostgres } from "./serviceAndDal/triggersDal";
+import { getTimeTriggerDal, getTrrigerPostgresDal } from "./serviceAndDal/triggersDal";
 
 const pubsub = new PubSub();
 const resolvers = {
@@ -92,11 +92,11 @@ const resolvers = {
         }
       }
     },
-    getTrrigerPostgres: async () => {
+    getTriggerPostgres: async () => {
       try {
         console.log(111);
         
-        const trrigerCart = await getTrrigerPostgres();
+        const trrigerCart = await getTrrigerPostgresDal();
         return { trrigerCart };
       } catch (error) {
         if (error instanceof Error) {

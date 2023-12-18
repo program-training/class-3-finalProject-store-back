@@ -10,6 +10,7 @@ import {
 } from "./serviceAndDal/productsDal";
 import carts from "./serviceAndDal/cartsDal";
 import { getOrderByUserDal, postOrderDal } from "./serviceAndDal/orderDal";
+import { getTimeTriggerDal, getTrrigerPostgres } from "./serviceAndDal/triggersDal";
 
 const pubsub = new PubSub();
 
@@ -73,6 +74,31 @@ export const resolvers = {
         }
       }
     },
+
+    getTrrigerCart: async () => {
+      try {
+        const trrigerCart = await getTimeTriggerDal();
+        return { trrigerCart };
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new Error(`Error in getTrrigerCart resolver: ${error.message}`);
+        }
+      }
+    },
+    getTrrigerPostgres: async () => {
+      try {
+        console.log(111);
+        
+        const trrigerCart = await getTrrigerPostgres();
+        return { trrigerCart };
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new Error(`Error in getTrrigerCart resolver: ${error.message}`);
+        }
+      }
+    },
+
+    
   },
   Mutation: {
     addCartItem: async (_: unknown, newCartItem: CartItem) => {

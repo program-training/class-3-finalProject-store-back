@@ -109,6 +109,19 @@ enum OrderType {
   SHIPPING
 }
 
+type TrrigerCart {
+  trrigerCart: String
+}
+
+type TrrigerPostgres {
+  trrigerUser: [TrrigerUserHourlyCount]!
+}
+
+type TrrigerUserHourlyCount {
+  hour: String!
+  count: Int!
+}
+
 type Query {
   getAllProducts(categoryName: String): [Product]!
   getProduct(productId: ID!): Product
@@ -116,6 +129,9 @@ type Query {
   similarProducts(categoryName: String, quantity: Int): [Product]!
   getOrderByUser(userId: String!): Order
   getCartByUser(userId: String!): [CartItem]
+  getTrrigerCart: TrrigerCart
+  getTrrigerPostgres: TrrigerPostgres
+
 }
 
 type Mutation {

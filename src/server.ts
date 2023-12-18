@@ -12,6 +12,7 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ServerContext } from "./helpers/types";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { connectionToRedis } from "./redis/redisClient";
 
 dotenv.config();
 const app = express();
@@ -30,7 +31,7 @@ const start = async () => {
   await server.start();
   app.use(
     `/`,
-    cors<cors.CorsRequest>(),
+    cors(),
     express.json(),
     morgan(
       `[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms`
@@ -48,6 +49,7 @@ const start = async () => {
   console.log(`Server is running on port ${process.env.PORT}`);
   connectionToMongoDB();
   connectionToPostgresDB();
+  connectionToRedis();
 };
 
 start();

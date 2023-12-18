@@ -35,8 +35,6 @@ export const getCategoriesDal = async () => {
     const url = `${process.env.BASE_URL_ERP}/shop_inventory/categories`;
     const categoriesResult = await axios.get(url);
     const categoriesData: Category[] = categoriesResult.data;
-    console.log(categoriesData);
-
     if (categoriesResult.status === 200) {
       return categoriesData;
     } else {
@@ -56,6 +54,9 @@ export const similarProductsDal = async (categoryName: string, quantity: number)
         quantity,
       },
     });
+    console.log(productsFromBannerServer.data);
+    console.log(categoryName);
+    console.log(quantity);
     const bannerProductsList: Product[] = productsFromBannerServer.data;
     return bannerProductsList;
   } catch (error) {

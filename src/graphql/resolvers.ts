@@ -2,12 +2,7 @@ import { PubSub } from "graphql-subscriptions";
 import { CartItem, Order, User } from "../helpers/types";
 import { userValidator } from "../helpers/joi";
 import { userLoginDal, userRegister } from "./serviceAndDal/usersDal";
-import {
-  getAllProductsDal,
-  getCategoriesDal,
-  getProductDal,
-  similarProductsDal,
-} from "./serviceAndDal/productsDal";
+import { getAllProductsDal, getCategoriesDal, getProductDal, similarProductsDal } from "./serviceAndDal/productsDal";
 import carts from "./serviceAndDal/cartsDal";
 import { getOrderByUserDal, postOrderDal } from "./serviceAndDal/orderDal";
 
@@ -15,18 +10,18 @@ const pubsub = new PubSub();
 
 export const resolvers = {
   Query: {
-    getAllProducts: async (_: unknown, categoryName: string | undefined) => {
+    getAllProducts: async (_: unknown, arg: { categoryName: string | undefined }) => {
       try {
-        return await getAllProductsDal(categoryName);
+        return await getAllProductsDal(arg.categoryName);
       } catch (error) {
         if (error instanceof Error) {
           throw new Error(`Error fetching all products: ${error.message}`);
         }
       }
     },
-    getProduct: async (_: unknown, productId: string) => {
+    getProduct: async (_: unknown, arg: { productId: string }) => {
       try {
-        return await getProductDal(productId);
+        return await getProductDal(arg.productId);
       } catch (error) {
         if (error instanceof Error) {
           throw new Error(`Error fetching product: ${error.message}`);
@@ -42,10 +37,7 @@ export const resolvers = {
         }
       }
     },
-    similarProducts: async (
-      _: unknown,
-      args: { categoryName: string; quantity: number }
-    ) => {
+    similarProducts: async (_: unknown, args: { categoryName: string; quantity: number }) => {
       try {
         return await similarProductsDal(args.categoryName, args.quantity);
       } catch (error) {
@@ -85,10 +77,7 @@ export const resolvers = {
         }
       }
     },
-    deleteCartItem: async (
-      _: unknown,
-      args: { productId: string; userId: string }
-    ) => {
+    deleteCartItem: async (_: unknown, args: { productId: string; userId: string }) => {
       try {
         const result = await carts.deleteItemDal(args.productId, args.userId);
         return result;

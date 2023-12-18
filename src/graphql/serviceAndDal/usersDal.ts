@@ -10,14 +10,13 @@ export const userRegister = async (user: User) => {
   user.password = usersPassword;
   try {
     const uniquenessCheck = await client.query(`select * from users where email = $1`, [email]);
-    if (uniquenessCheck.rows) throw Error(`This user is already registered!`);
+    if (uniquenessCheck.rows.length !== 0) throw Error(`This user is already registered!`);
     const newUser = await client.query(
-      `INSERT INTO Users (UserID, time)
+      `INSERT INTO users (email, password)
     VALUES ($1, $2);`,
       [user.email, user.password]
     );
-    console.log(newUser.rows);
-    if (newUser.rows) {
+    if (newUser.rows.length === 1) {
       const token = createToken(user);
       return token;
     }
@@ -32,7 +31,7 @@ export const userLoginDal = async (user: User) => {
   try {
     const { email, password } = user;
     const userFromDB = await client.query(`select * from users where email = $1`, [email]);
-    if (!userFromDB) throw Error(`User not found`);
+    if (userFromDB.rows.length === 0) throw Error(`User not found`);
     const comparePasswordFromUser = comparePassword(password, userFromDB.rows[2]);
     if (!comparePasswordFromUser) throw Error(`Password is incorrect`);
     const userFromDBObject: User = JSON.parse(JSON.stringify(userFromDB.rows[0]));

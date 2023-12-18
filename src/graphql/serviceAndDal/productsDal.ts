@@ -2,9 +2,45 @@ import axios from "axios";
 import { Category, Product, productKeys } from "../../helpers/types";
 import { hasRequiredKeys } from "../../helpers/function";
 
+// import { GraphQLClient } from "graphql-request";
+// export const getAllProductsDal = async (categoryName?: string) => {
+//   try {
+//     const query = categoryName
+//       ? `
+//         query {
+//           products(categoryName: "${categoryName}") {
+//             id 
+//             name
+//           }
+//         }
+//       `
+//       : `
+//         query {
+//           products {
+//             id
+//             name
+//           }
+//         }
+//       `;
+
+//     const endpoint = `${process.env.BASE_URL_ERP}categories/${categoryName}`;// Set your author server GraphQL endpoint
+//     const client = new GraphQLClient(endpoint);
+//     const data = await client.request(query);
+//     const products = data.products;
+//     return products;
+//   } catch (error) {
+//     console.error(error);
+//     throw new Error("Failed to fetch products");
+//   }
+// };
+
+
 export const getAllProductsDal = async (categoryName?: string) => {
   try {
-    const url = categoryName ? `${process.env.BASE_URL_ERP}/shop_inventory/categories/${categoryName}` : `${process.env.BASE_URL_ERP}/shop_inventory`;
+    let url = "";
+    url = categoryName
+      ? `${process.env.BASE_URL_ERP}categories/${categoryName}`
+      : `${process.env.BASE_URL_ERP}categories`;
     const productsResult = await axios.get(url);
     const products: Product | Product[] = productsResult.data;
     return products;
@@ -16,9 +52,12 @@ export const getAllProductsDal = async (categoryName?: string) => {
 
 export const getProductDal = async (productId: string) => {
   try {
-    const url = `${process.env.BASE_URL_ERP}/shop_inventory/${productId}`;
+    const url = `${process.env.BASE_URL_ERP}${productId}`;
     const productResult = await axios.get(url);
-    if (productResult.status === 200 && hasRequiredKeys(productResult.data, productKeys)) {
+    if (
+      productResult.status === 200 &&
+      hasRequiredKeys(productResult.data, productKeys)
+    ) {
       const productData: Product = productResult.data;
       return productData;
     } else {
@@ -32,11 +71,9 @@ export const getProductDal = async (productId: string) => {
 
 export const getCategoriesDal = async () => {
   try {
-    const url = `${process.env.BASE_URL_ERP}/shop_inventory/categories`;
+    const url = `${process.env.BASE_URL_ERP}/categories`;
     const categoriesResult = await axios.get(url);
     const categoriesData: Category[] = categoriesResult.data;
-    console.log(categoriesData);
-
     if (categoriesResult.status === 200) {
       return categoriesData;
     } else {
@@ -48,14 +85,20 @@ export const getCategoriesDal = async () => {
   }
 };
 
-export const similarProductsDal = async (categoryName: string, quantity: number) => {
+export const similarProductsDal = async (
+  categoryName: string,
+  quantity: number
+) => {
   try {
-    const productsFromBannerServer = await axios(`${process.env.BASE_URL_BANNERS}/recommended/categoryName`, {
-      params: {
-        categoryName,
-        quantity,
-      },
-    });
+    const productsFromBannerServer = await axios(
+      `${process.env.BASE_URL_BANNERS}/recommended/categoryName`,
+      {
+        params: {
+          categoryName,
+          quantity, 
+        },
+      }
+    );
     const bannerProductsList: Product[] = productsFromBannerServer.data;
     return bannerProductsList;
   } catch (error) {

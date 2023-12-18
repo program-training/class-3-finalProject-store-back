@@ -17,5 +17,5 @@ export default async function connectionToPostgresDB() {
     console.error("Unexpected error on idle client", err);
     process.exit(-1);
   });
-  console.log("connection to postgres");
+  console.log("Connected to postgres");
 }

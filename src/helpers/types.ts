@@ -28,13 +28,19 @@ interface Checkout {
 }
 
 interface User {
-  _id?: string;
+  id?: string;
   email: string;
   password: string;
 }
 
 interface Category {}
-
+interface UserInput{
+  userInput:{
+   email: string;
+  password: string;
+  }
+ 
+}
 interface OrderProduct {
   id: string;
   name: string;
@@ -75,4 +81,4 @@ interface CartReport {
 const orderKeys = ["id", "cartItems", "orderTime", "status", "price", "shippingDetails"];
 const productKeys = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];
 
-export { ServerContext, CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, CartReport, Time, orderKeys, productKeys };
+export {UserInput, ServerContext, CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, CartReport, Time, orderKeys, productKeys };

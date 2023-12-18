@@ -37,9 +37,11 @@ import { hasRequiredKeys } from "../../helpers/function";
 export const getAllProductsDal = async (categoryName?: string) => {
   try {
     let url = "";
-    url = categoryName ? `${process.env.BASE_URL_ERP}categories/${categoryName}` : `${process.env.BASE_URL_ERP}categories`;
+    url = categoryName ? `${process.env.BASE_URL_ERP}/shop_inventory/categories/${categoryName}` : `${process.env.BASE_URL_ERP}/shop_inventory`;
     const productsResult = await axios.get(url);
     const products: Product | Product[] = productsResult.data;
+    console.log(products);
+
     return products;
   } catch (error) {
     console.error(error);
@@ -49,7 +51,7 @@ export const getAllProductsDal = async (categoryName?: string) => {
 
 export const getProductDal = async (productId: string) => {
   try {
-    const url = `${process.env.BASE_URL_ERP}${productId}`;
+    const url = `${process.env.BASE_URL_ERP}/shop_inventory/${productId}`;
     const productResult = await axios.get(url);
     if (productResult.status === 200 && hasRequiredKeys(productResult.data, productKeys)) {
       const productData: Product = productResult.data;
@@ -65,7 +67,7 @@ export const getProductDal = async (productId: string) => {
 
 export const getCategoriesDal = async () => {
   try {
-    const url = `${process.env.BASE_URL_ERP}/categories`;
+    const url = `${process.env.BASE_URL_ERP}/shop_inventory/categories`;
     const categoriesResult = await axios.get(url);
     const categoriesData: Category[] = categoriesResult.data;
     if (categoriesResult.status === 200) {

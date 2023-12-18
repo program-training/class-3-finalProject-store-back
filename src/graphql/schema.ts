@@ -14,10 +14,10 @@ input ImageInput {
 }
 
 type Product {
-  _id: String!
+  _id: ID!
   name: String!
   salePrice: Float!
-  quantity: Int!
+  quantity: Float!
   description: String!
   category: String!
   discountPercentage: Float!
@@ -25,10 +25,10 @@ type Product {
 }
 
 input ProductInput {
-  _id: String!
+  _id: ID!
   name: String!
   salePrice: Float!
-  quantity: Int!
+  quantity: Float!
   description: String!
   category: String!
   discountPercentage: Float!
@@ -73,7 +73,7 @@ type ShippingDetails {
 }
 
 type Order {
-  id: String!
+  _id: String!
   cartItems: [OrderProduct!]!
   orderTime: String!
   status: String!

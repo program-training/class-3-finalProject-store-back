@@ -5,67 +5,41 @@ import { pool } from "../../postgresDB/postgres";
 
 export const userRegister = async (user: User) => {
   const client = await pool.connect();
-  console.log(user);
-
   const { email, password } = user;
   const usersPassword = encryptPassword(password);
   user.password = usersPassword;
-  console.log(user.password);
-
   try {
-    const uniquenessCheck = await client.query(
-      `select * from users where email = $1`,
-      [email]
-    );
-    console.log(uniquenessCheck.rows);
-
-    if (uniquenessCheck.rows.length !== 0) {
-      throw Error(`This user is already registered!`);
-    }
+    const uniquenessCheck = await client.query(`select * from users where email = $1`, [email]);
+    if (uniquenessCheck.rows.length !== 0) throw Error(`This user is already registered!`);
     const newUser = await client.query(
-      `INSERT INTO USERS (email,password)
+      `INSERT INTO users (email, password)
     VALUES ($1, $2);`,
       [user.email, user.password]
     );
-    console.log(newUser.rows);
-    if (newUser.rows.length > 0) {
+    if (newUser.rows.length === 1) {
       const token = createToken(user);
+      client.release();
       return token;
     }
   } catch (err) {
+    client.release();
     return Promise.reject(err);
   }
-  client.release();
 };
 
 export const userLoginDal = async (user: UserInput) => {
   const client = await pool.connect();
   try {
     const { email, password } = user.userInput;
-    const userFromDB = await client.query(
-      `select * from users where email = $1`,
-      [email]
-    );
-    console.log(userFromDB.rows);
-    
+    const userFromDB = await client.query(`select * from users where email = $1`, [email]);
     if (userFromDB.rows.length === 0) throw Error(`User not found`);
-    const comparePasswordFromUser = comparePassword(
-      password,
-      userFromDB.rows[0].password
-    );
-    console.log(comparePasswordFromUser);
-    
+    const comparePasswordFromUser = comparePassword(password, userFromDB.rows[0].password);
     if (!comparePasswordFromUser) throw Error(`Password is incorrect`);
-    // const userFromDBObject = JSON.parse(
-    //   JSON.stringify(userFromDB.rows[0])
-    // );
-    // console.log(userFromDBObject);
-
-    console.log("pppfff");
-    
     const token = createToken(userFromDB.rows[0]);
+    client.release();
     return token;
   } catch (err) {
+    client.release();
     return Promise.reject(err);
   }
 };

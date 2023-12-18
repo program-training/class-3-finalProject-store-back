@@ -117,7 +117,7 @@ type TrrigerCart {
 }
 
 type TrrigerPostgres {
-  trrigerUser: [TrrigerUserHourlyCount]!
+  triggerUser: [TrrigerUserHourlyCount]!
 }
 
 type TrrigerUserHourlyCount {

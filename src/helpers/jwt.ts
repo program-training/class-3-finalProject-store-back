@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { User } from "../helpers/types";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const secret = process.env.SECRET || "jwt";
 

@@ -1,4 +1,3 @@
-import { error } from "console";
 import { createClient } from "redis";
 
 const redisClient = createClient({
@@ -19,8 +18,6 @@ export const connectionToRedis = async () => {
 };
 
 export const getDataFromRedis = async (key: string) => {
-  const data = await redisClient.get(key)
-  return data ? JSON.parse(data) : false
-}
-
-
+  const data = await redisClient.get(key);
+  return data ? JSON.parse(data) : false;
+};

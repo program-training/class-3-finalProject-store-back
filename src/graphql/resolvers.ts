@@ -1,5 +1,5 @@
 import { PubSub } from "graphql-subscriptions";
-import { CartItem, Order, User } from "../helpers/types";
+import { CartItem, Order, User, UserInput } from "../helpers/types";
 import { userValidator } from "../helpers/joi";
 import { userLoginDal, userRegister } from "./serviceAndDal/usersDal";
 import {
@@ -13,18 +13,22 @@ import { getOrderByUserDal, postOrderDal } from "./serviceAndDal/orderDal";
 import { getTimeTriggerDal, getTrrigerPostgres } from "./serviceAndDal/triggersDal";
 
 const pubsub = new PubSub();
-
-export const resolvers = {
+const resolvers = {
   Query: {
-    getAllProducts: async (_: unknown, categoryName: string | undefined) => {
+    
+    getAllProducts: async (
+      _: unknown,
+      args: { categoryName: string | undefined }
+    ) => {
       try {
-        return await getAllProductsDal(categoryName);
+        return await getAllProductsDal(args.categoryName);
       } catch (error) {
         if (error instanceof Error) {
           throw new Error(`Error fetching all products: ${error.message}`);
         }
       }
     },
+
     getProduct: async (_: unknown, productId: string) => {
       try {
         return await getProductDal(productId);
@@ -34,6 +38,7 @@ export const resolvers = {
         }
       }
     },
+
     getCategories: async () => {
       try {
         return await getCategoriesDal();
@@ -43,6 +48,7 @@ export const resolvers = {
         }
       }
     },
+
     similarProducts: async (
       _: unknown,
       args: { categoryName: string; quantity: number }
@@ -55,6 +61,7 @@ export const resolvers = {
         }
       }
     },
+
     getCartByUser: async (_: unknown, userId: string) => {
       try {
         return await carts.getCartDal(userId);
@@ -100,6 +107,7 @@ export const resolvers = {
 
     
   },
+
   Mutation: {
     addCartItem: async (_: unknown, newCartItem: CartItem) => {
       try {
@@ -111,6 +119,7 @@ export const resolvers = {
         }
       }
     },
+
     deleteCartItem: async (
       _: unknown,
       args: { productId: string; userId: string }
@@ -124,9 +133,15 @@ export const resolvers = {
         }
       }
     },
-    register: async (_: unknown, user: User) => {
+
+    register: async (_: unknown, user: UserInput) => {
       try {
-        const token = await userRegister(user);
+        const { email, password } = user.userInput;
+        const userInput = {
+          email,
+          password,
+        };
+        const token = await userRegister(userInput);
         return { token };
       } catch (error) {
         if (error instanceof Error) {
@@ -134,7 +149,8 @@ export const resolvers = {
         }
       }
     },
-    login: async (_: unknown, user: User) => {
+
+    login: async (_: unknown, user: UserInput) => {
       try {
         const token = await userLoginDal(user);
         return { token };
@@ -144,6 +160,7 @@ export const resolvers = {
         }
       }
     },
+
     postOrderCart: async (_: unknown, order: Order) => {
       try {
         const newOrder = await postOrderDal(order);

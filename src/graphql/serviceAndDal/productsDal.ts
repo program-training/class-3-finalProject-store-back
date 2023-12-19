@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Category, Product, productKeys } from "../../helpers/types";
 import { hasRequiredKeys } from "../../helpers/function";
+import { updateRedisJsonArray } from "../../redis/redisClient";
 
 // import { GraphQLClient } from "graphql-request";
 // export const getAllProductsDal = async (categoryName?: string) => {
@@ -9,7 +10,7 @@ import { hasRequiredKeys } from "../../helpers/function";
 //       ? `
 //         query {
 //           products(categoryName: "${categoryName}") {
-//             id 
+//             id
 //             name
 //           }
 //         }
@@ -34,7 +35,6 @@ import { hasRequiredKeys } from "../../helpers/function";
 //   }
 // };
 
-
 export const getAllProductsDal = async (categoryName?: string) => {
   try {
     let url = "";
@@ -43,7 +43,12 @@ export const getAllProductsDal = async (categoryName?: string) => {
       : `${process.env.BASE_URL_ERP}categories`;
     const productsResult = await axios.get(url);
     const products: Product | Product[] = productsResult.data;
-    return products;
+    if (productsResult.status === 200) {
+      await updateRedisJsonArray("products", products);
+      return products;
+    } else {
+      throw { status: 402, message: `Product not found` };
+    }
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -75,6 +80,7 @@ export const getCategoriesDal = async () => {
     const categoriesResult = await axios.get(url);
     const categoriesData: Category[] = categoriesResult.data;
     if (categoriesResult.status === 200) {
+      await updateRedisJsonArray("categories", categoriesData);
       return categoriesData;
     } else {
       throw { status: 404, message: `Categories not found` };
@@ -95,7 +101,7 @@ export const similarProductsDal = async (
       {
         params: {
           categoryName,
-          quantity, 
+          quantity,
         },
       }
     );

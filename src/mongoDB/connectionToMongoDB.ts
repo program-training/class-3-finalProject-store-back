@@ -7,7 +7,7 @@ const connectionToMongoDB = () => {
       w: "majority",
     })
     .then(() => {
-      console.log("Connection to mongoDB");
+      console.log("Connected to mongoDB");
     })
     .catch((error) => {
       console.log(error);

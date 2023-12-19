@@ -38,9 +38,7 @@ import { updateRedisJsonArray } from "../../redis/redisClient";
 export const getAllProductsDal = async (categoryName?: string) => {
   try {
     let url = "";
-    url = categoryName
-      ? `${process.env.BASE_URL_ERP}categories/${categoryName}`
-      : `${process.env.BASE_URL_ERP}categories`;
+    url = categoryName ? `${process.env.BASE_URL_ERP}/shop_inventory/categories/${categoryName}` : `${process.env.BASE_URL_ERP}/shop_inventory`;
     const productsResult = await axios.get(url);
     const products: Product | Product[] = productsResult.data;
     if (productsResult.status === 200) {
@@ -57,12 +55,9 @@ export const getAllProductsDal = async (categoryName?: string) => {
 
 export const getProductDal = async (productId: string) => {
   try {
-    const url = `${process.env.BASE_URL_ERP}${productId}`;
+    const url = `${process.env.BASE_URL_ERP}/shop_inventory/${productId}`;
     const productResult = await axios.get(url);
-    if (
-      productResult.status === 200 &&
-      hasRequiredKeys(productResult.data, productKeys)
-    ) {
+    if (productResult.status === 200 && hasRequiredKeys(productResult.data, productKeys)) {
       const productData: Product = productResult.data;
       return productData;
     } else {
@@ -76,7 +71,7 @@ export const getProductDal = async (productId: string) => {
 
 export const getCategoriesDal = async () => {
   try {
-    const url = `${process.env.BASE_URL_ERP}/categories`;
+    const url = `${process.env.BASE_URL_ERP}/shop_inventory/categories`;
     const categoriesResult = await axios.get(url);
     const categoriesData: Category[] = categoriesResult.data;
     if (categoriesResult.status === 200) {
@@ -91,10 +86,7 @@ export const getCategoriesDal = async () => {
   }
 };
 
-export const similarProductsDal = async (
-  categoryName: string,
-  quantity: number
-) => {
+export const similarProductsDal = async (categoryName: string, quantity: number) => {
   try {
     const productsFromBannerServer = await axios(
       `${process.env.BASE_URL_BANNERS}/recommended/categoryName`,

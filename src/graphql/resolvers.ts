@@ -80,18 +80,18 @@ const resolvers = {
     },
     getTriggerPostgres: async () => {
       try {
-        console.log(111);
-        
         const trrigerCart = await getTrrigerPostgresDal();
-        return { trrigerCart };
+        if (!trrigerCart) return null;
+        else {
+          console.log(trrigerCart, "trigger  resulver");
+          return trrigerCart;
+        }
       } catch (error) {
         if (error instanceof Error) {
           throw new Error(`Error in getTrrigerCart resolver: ${error.message}`);
         }
       }
     },
-
-    
   },
 
   Mutation: {

@@ -2,7 +2,6 @@ import { CartReport } from "../../helpers/types";
 import { CartReportsModel } from "../../mongoDB/models/cartReportModel";
 import { pool } from "../../postgresDB/postgres";
 
-
 export const getTimeTriggerDal = async () => {
   try {
     const cartReports: CartReport[] = await CartReportsModel.find({});
@@ -14,15 +13,14 @@ export const getTimeTriggerDal = async () => {
   }
 };
 
-export const getTrrigerPostgresDal = async (): Promise<{ [hour: string]: number }> => {
+export const getTrrigerPostgresDal = async () => {
   const client = await pool.connect();
-  console.log(222);
+  const hourCount: { [hour: string]: number } = {};
   try {
-    const result = await client.query<{ login_time: Date }>('SELECT login_time FROM reports');
-    const dates = result.rows.map(row => new Date(row.login_time));
-    const hourCount: { [hour: string]: number } = {};
-    dates.forEach(date => {
-      const hour = date.getHours().toString();
+    const result = await client.query("SELECT login_time FROM reports");
+    if (result.rows.length === 0) throw result;
+    const dates = result.rows.map((row) => {
+      const hour = new Date(row.login_time).getHours().toString();
       hourCount[hour] = (hourCount[hour] || 0) + 1;
     });
     return hourCount;

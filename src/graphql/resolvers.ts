@@ -5,6 +5,7 @@ import { userLoginDal, userRegister } from "./serviceAndDal/usersDal";
 import { getAllProductsDal, getCategoriesDal, getProductDal, similarProductsDal } from "./serviceAndDal/productsDal";
 import carts from "./serviceAndDal/cartsDal";
 import { getOrderByUserDal, postOrderDal } from "./serviceAndDal/orderDal";
+import { getTimeTriggerDal, getTrrigerPostgresDal } from "./serviceAndDal/triggersDal";
 
 const pubsub = new PubSub();
 const resolvers = {
@@ -63,6 +64,31 @@ const resolvers = {
       } catch (error) {
         if (error instanceof Error) {
           throw new Error(`Error retrieving order: ${error.message}`);
+        }
+      }
+    },
+
+    getTrrigerCart: async () => {
+      try {
+        const trrigerCart = await getTimeTriggerDal();
+        return { trrigerCart };
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new Error(`Error in getTrrigerCart resolver: ${error.message}`);
+        }
+      }
+    },
+    getTriggerPostgres: async () => {
+      try {
+        const trrigerCart = await getTrrigerPostgresDal();
+        if (!trrigerCart) return null;
+        else {
+          console.log(trrigerCart, "trigger  resulver");
+          return trrigerCart;
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          throw new Error(`Error in getTrrigerCart resolver: ${error.message}`);
         }
       }
     },

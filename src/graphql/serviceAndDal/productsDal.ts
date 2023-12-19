@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Category, Product, productKeys } from "../../helpers/types";
 import { hasRequiredKeys } from "../../helpers/function";
+import { updateRedisJsonArray } from "../../redis/redisClient";
 
 // import { GraphQLClient } from "graphql-request";
 // export const getAllProductsDal = async (categoryName?: string) => {
@@ -40,9 +41,12 @@ export const getAllProductsDal = async (categoryName?: string) => {
     url = categoryName ? `${process.env.BASE_URL_ERP}/shop_inventory/categories/${categoryName}` : `${process.env.BASE_URL_ERP}/shop_inventory`;
     const productsResult = await axios.get(url);
     const products: Product | Product[] = productsResult.data;
-    console.log(products);
-
-    return products;
+    if (productsResult.status === 200) {
+      await updateRedisJsonArray("products", products);
+      return products;
+    } else {
+      throw { status: 402, message: `Product not found` };
+    }
   } catch (error) {
     console.error(error);
     return Promise.reject(error);
@@ -71,6 +75,7 @@ export const getCategoriesDal = async () => {
     const categoriesResult = await axios.get(url);
     const categoriesData: Category[] = categoriesResult.data;
     if (categoriesResult.status === 200) {
+      await updateRedisJsonArray("categories", categoriesData);
       return categoriesData;
     } else {
       throw { status: 404, message: `Categories not found` };
@@ -83,12 +88,15 @@ export const getCategoriesDal = async () => {
 
 export const similarProductsDal = async (categoryName: string, quantity: number) => {
   try {
-    const productsFromBannerServer = await axios(`${process.env.BASE_URL_BANNERS}/recommended/categoryName`, {
-      params: {
-        categoryName,
-        quantity,
-      },
-    });
+    const productsFromBannerServer = await axios(
+      `${process.env.BASE_URL_BANNERS}/recommended/categoryName`,
+      {
+        params: {
+          categoryName,
+          quantity,
+        },
+      }
+    );
     const bannerProductsList: Product[] = productsFromBannerServer.data;
     return bannerProductsList;
   } catch (error) {

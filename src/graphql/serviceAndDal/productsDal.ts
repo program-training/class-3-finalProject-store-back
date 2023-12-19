@@ -22,8 +22,8 @@ import { hasRequiredKeys } from "../../helpers/function";
 //           }
 //         }
 //       `;
-
-//     const endpoint = `${process.env.BASE_URL_ERP}categories/${categoryName}`;// Set your author server GraphQL endpoint
+// לתקן את הכתובת
+//     const endpoint = `${process.env.BASE_URL_ERP}/shop_inventory/categories/${categoryName}`;// Set your author server GraphQL endpoint
 //     const client = new GraphQLClient(endpoint);
 //     const data = await client.request(query);
 //     const products = data.products;

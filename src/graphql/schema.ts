@@ -128,5 +128,9 @@ type Mutation {
   addCartItem( cartItem: CartItemUpdateInput!): CartItem
   deleteCartItem(deleteCartInput: DeleteCartInput ): CartItem
 }
+
+type Subscription {
+  register(userInput: UserInput!): Token!
+}
 `;
 export default typeDefs;

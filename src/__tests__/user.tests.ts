@@ -16,7 +16,7 @@
 // describe("user sign up", () => {
 //   it("should create a user", async () => {
 //     const res = await request("http://localhost:5050")
-//       .post("/api/users/register")
+//       .post("/users/register")
 //       .send({
 //         email: "user@example.com",
 //         password: "12@WEcvf2!5",
@@ -29,7 +29,7 @@
 // describe("user sign in", () => {
 //   it("should sign in", async () => {
 //     const res = await request("http://localhost:5050")
-//       .post("/api/users/login")
+//       .post("/users/login")
 //       .send({
 //         email: "user@example.com",
 //         password: "12@WEcvf2!5",

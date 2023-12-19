@@ -1,5 +1,6 @@
 import { CartItemModel } from "../../mongoDB/models/cartModel";
 import { CartItem } from "../../helpers/types";
+import { updateRedisJsonArray } from "../../redis/redisClient";
 
 const isExist = async (productId: string, userId: string) => {
   const item = await CartItemModel.findOne({
@@ -13,8 +14,7 @@ const getCartDal = async (userId: string) => {
   try {
     const cartItems = await CartItemModel.find({ userId });
     if (!cartItems) throw Error(`Cart not found`);
-    console.log(cartItems);
-
+    await updateRedisJsonArray("cart", cartItems);
     return cartItems;
   } catch (error) {
     console.error("Error retrieving cart items:", error);
@@ -28,6 +28,8 @@ const addItemDal = async (newCartItem: CartItem) => {
     if (item) {
       item.product.quantity += 1;
       const updatedItem = await item.save();
+      const cartItems = await CartItemModel.find({});
+      await updateRedisJsonArray("cart", cartItems);
       return updatedItem;
     } else {
       const cartItemInstance = new CartItemModel(newCartItem);
@@ -46,6 +48,8 @@ const deleteItemDal = async (productId: string, userId: string) => {
     if (item) {
       item.product.quantity -= 1;
       const updatedItem = await item.save();
+      const cartItems = await CartItemModel.find({});
+      await updateRedisJsonArray("cart", cartItems);
       return updatedItem;
     } else {
       const deletedCartItem = await CartItemModel.deleteOne({
@@ -64,4 +68,4 @@ const carts = {
   addItemDal,
   getCartDal,
 };
-export default carts
+export default carts;

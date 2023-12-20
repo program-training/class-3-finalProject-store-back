@@ -16,9 +16,10 @@ export const userRegister = async (user: User) => {
     VALUES ($1, $2);`,
       [user.email, user.password]
     );
-    if (newUser.rows.length === 1) {
+    if (newUser.rows.length === 0) {
       const token = createToken(user);
       client.release();
+      console.log(token);
       return token;
     }
   } catch (err) {

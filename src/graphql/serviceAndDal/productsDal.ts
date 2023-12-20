@@ -88,15 +88,12 @@ export const getCategoriesDal = async () => {
 
 export const similarProductsDal = async (categoryName: string, quantity: number) => {
   try {
-    const productsFromBannerServer = await axios(
-      `${process.env.BASE_URL_BANNERS}/recommended/categoryName`,
-      {
-        params: {
-          categoryName,
-          quantity,
-        },
-      }
-    );
+    const productsFromBannerServer = await axios(`${process.env.BASE_URL_BANNERS}/recommended/categoryName`, {
+      params: {
+        categoryName,
+        quantity,
+      },
+    });
     const bannerProductsList: Product[] = productsFromBannerServer.data;
     return bannerProductsList;
   } catch (error) {

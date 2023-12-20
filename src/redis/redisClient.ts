@@ -28,15 +28,10 @@ export const getDataFromRedis = async (key: string): Promise<string | null> => {
   }
 };
 
-export const updateRedisJsonArray = async (
-  key: string,
-  newData: unknown
-): Promise<void> => {
+export const updateRedisJsonArray = async (key: string, newData: unknown): Promise<void> => {
   try {
     const currentDataString = await redisClient.get(key);
-    const currentDataArray = currentDataString
-      ? JSON.parse(currentDataString)
-      : [];
+    const currentDataArray = currentDataString ? JSON.parse(currentDataString) : [];
     currentDataArray.push(newData);
     const updatedDataString = JSON.stringify(currentDataArray);
     await redisClient.set(key, updatedDataString);

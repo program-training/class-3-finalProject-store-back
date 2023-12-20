@@ -22,6 +22,7 @@ const app = express();
 morgan.token("date", function () {
   return moment().tz("Israel").format("DD/MMM/YYYY HH:mm:ss ZZ");
 });
+
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 const httpServer = createServer(app);
 const wsServer = new WebSocketServer({
@@ -47,12 +48,11 @@ const server = new ApolloServer<ServerContext>({
 const start = async () => {
   await server.start();
   app.use(`/`, cors(), express.json(), morgan(`[:date[clf]] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms`), expressMiddleware(server));
-  app.listen(process.env.PORT, async () => {
-    console.log(`Server is running on port ${process.env.PORT}`);
-    connectionToMongoDB();
-    connectionToPostgresDB();
-    connectionToRedis();
-  });
+  await new Promise<void>((resolve) => httpServer.listen({ port: process.env.PORT }, resolve));
+  console.log(`Server is running on port ${process.env.PORT}`);
+  connectionToMongoDB();
+  connectionToPostgresDB();
+  connectionToRedis();
 };
 
 start();

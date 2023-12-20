@@ -112,18 +112,6 @@ enum OrderType {
   SHIPPING
 }
 
-type TrrigerCart {
-  trrigerCart: String
-}
-
-type TrrigerPostgres {
-  triggerUser: TrrigerUserHourlyCount!
-}
-
-type TrrigerUserHourlyCount {
-  hour:  String!
-  count: Int!
-}
 
 type Query {
   getAllProducts(categoryName: String): [Product]!
@@ -132,9 +120,8 @@ type Query {
   similarProducts(categoryName: String, quantity: Int): [Product]!
   getOrderByUser(userId: String!): Order
   getCartByUser(userId: String!): [CartItem]
-  getTrrigerCart: TrrigerCart
-  getTriggerPostgres: TrrigerPostgres
-
+  mongoTrigger: [Int]
+  postgresTrigger: [Int]
 }
 
 type Mutation {
@@ -146,7 +133,9 @@ type Mutation {
 }
 
 type Subscription {
-  register(userInput: UserInput!): Token!
+  triggerMongo: [Int]
+  triggerPostgres: [Int]
 }
+ 
 `;
 export default typeDefs;

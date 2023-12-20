@@ -1,13 +1,13 @@
-import { PubSub } from "graphql-subscriptions";
+import { RedisPubSub } from "graphql-redis-subscriptions";
 import { CartItem, Order, User, UserInput } from "../helpers/types";
 import { userValidator } from "../helpers/joi";
 import { userLoginDal, userRegister } from "./serviceAndDal/usersDal";
 import { getAllProductsDal, getCategoriesDal, getProductDal, similarProductsDal } from "./serviceAndDal/productsDal";
 import carts from "./serviceAndDal/cartsDal";
 import { getOrderByUserDal, postOrderDal } from "./serviceAndDal/orderDal";
-import { getTimeTriggerDal, getTrrigerPostgresDal } from "./serviceAndDal/triggersDal";
+import { getTriggerMongoDal, getTriggerPostgresDal } from "./serviceAndDal/triggersDal";
 
-const pubsub = new PubSub();
+const pubsub = new RedisPubSub();
 const resolvers = {
   Query: {
     getAllProducts: async (_: unknown, arg: { categoryName: string | undefined }) => {
@@ -28,7 +28,6 @@ const resolvers = {
         }
       }
     },
-
     getCategories: async () => {
       try {
         return await getCategoriesDal();
@@ -47,7 +46,6 @@ const resolvers = {
         }
       }
     },
-
     getCartByUser: async (_: unknown, userId: string) => {
       try {
         return await carts.getCartDal(userId);
@@ -67,28 +65,23 @@ const resolvers = {
         }
       }
     },
-
-    getTrrigerCart: async () => {
+    mongoTrigger: async () => {
       try {
-        const trrigerCart = await getTimeTriggerDal();
-        return { trrigerCart };
+        const triggerMongo = await getTriggerMongoDal();
+        return triggerMongo;
       } catch (error) {
         if (error instanceof Error) {
-          throw new Error(`Error in getTrrigerCart resolver: ${error.message}`);
+          throw new Error(error.message);
         }
       }
     },
-    getTriggerPostgres: async () => {
+    postgresTrigger: async () => {
       try {
-        const trrigerCart = await getTrrigerPostgresDal();
-        if (!trrigerCart) return null;
-        else {
-          console.log(trrigerCart, "trigger  resulver");
-          return trrigerCart;
-        }
+        const triggerPostgres = await getTriggerPostgresDal();
+        return triggerPostgres;
       } catch (error) {
         if (error instanceof Error) {
-          throw new Error(`Error in getTrrigerCart resolver: ${error.message}`);
+          throw new Error(error.message);
         }
       }
     },
@@ -124,6 +117,7 @@ const resolvers = {
           password,
         };
         const token = await userRegister(userInput);
+        pubsub.publish("TRIGGER_POSTGRES", { triggerPostgres: getTriggerPostgresDal });
         return { token };
       } catch (error) {
         if (error instanceof Error) {
@@ -146,12 +140,25 @@ const resolvers = {
     postOrderCart: async (_: unknown, order: Order) => {
       try {
         const newOrder = await postOrderDal(order);
+        pubsub.publish("TRIGGER_MONGO", { triggerMongo: getTriggerMongoDal });
         return newOrder;
       } catch (error) {
         if (error instanceof Error) {
           throw new Error(`Error posting order: ${error.message}`);
         }
       }
+    },
+  },
+  Subscription: {
+    triggerPostgres: {
+      subscribe: () => {
+        return pubsub.asyncIterator(["TRIGGER_POSTGRES"]);
+      },
+    },
+    triggerMongo: {
+      subscribe: () => {
+        return pubsub.asyncIterator(["TRIGGER_MONGO"]);
+      },
     },
   },
 };

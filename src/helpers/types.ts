@@ -1,5 +1,5 @@
-interface ServerContext  {
-  token?: string
+interface ServerContext {
+  token?: string;
 }
 
 interface CartItem {
@@ -8,7 +8,7 @@ interface CartItem {
 }
 
 interface Product {
-  _id: string
+  _id: string;
   name: string;
   salePrice: number;
   quantity: number;
@@ -34,12 +34,11 @@ interface User {
 }
 
 interface Category {}
-interface UserInput{
-  userInput:{
-   email: string;
-  password: string;
-  }
- 
+interface UserInput {
+  userInput: {
+    email: string;
+    password: string;
+  };
 }
 interface OrderProduct {
   id: string;
@@ -62,23 +61,14 @@ interface Order {
   price: number;
   shippingDetails: ShippingDetails;
 }
-interface Time {
-  time: {
-    date: {
-      year: number;
-      month: number;
-      day: number;
-    };
-    hour: number;
-  }
-}
+
 interface CartReport {
-  _id?: string
-  user_id: string
-  product_id: string
-  time: Time
+  _id?: string;
+  user_id: string;
+  product_id: string;
+  date: number;
 }
 const orderKeys = ["id", "cartItems", "orderTime", "status", "price", "shippingDetails"];
 const productKeys = ["name", "salePrice", "quantity", "description", "category", "discountPercentage", "image"];
 
-export {UserInput, ServerContext, CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, CartReport, Time, orderKeys, productKeys };
+export { UserInput, ServerContext, CartItem, Checkout, User, Product, Category, Order, OrderProduct, ShippingDetails, CartReport, orderKeys, productKeys };

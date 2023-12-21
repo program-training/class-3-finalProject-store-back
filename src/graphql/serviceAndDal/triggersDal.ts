@@ -3,7 +3,7 @@ import { CartReportsModel } from "../../mongoDB/models/cartReportModel";
 import { pool } from "../../postgresDB/postgres";
 
 export const getTriggerMongoDal = async () => {
-  const hourCount: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const hourCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   try {
     const cartReports: CartReport[] = await CartReportsModel.find({});
     cartReports.forEach((trigger) => {
@@ -16,10 +16,9 @@ export const getTriggerMongoDal = async () => {
     return Promise.reject(error);
   }
 };
-
 export const getTriggerPostgresDal = async () => {
   const client = await pool.connect();
-  const hourCount: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const hourCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   try {
     const result = await client.query("SELECT login_time FROM reports");
     if (result.rows.length === 0) throw result;

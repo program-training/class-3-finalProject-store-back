@@ -1,13 +1,12 @@
-import { RedisPubSub } from "graphql-redis-subscriptions";
-import { CartItem, Order, User, UserInput } from "../helpers/types";
-import { userValidator } from "../helpers/joi";
+import { PubSub } from "graphql-subscriptions";
+import { CartItem, Order, UserInput } from "../helpers/types";
 import { userLoginDal, userRegister } from "./serviceAndDal/usersDal";
 import { getAllProductsDal, getCategoriesDal, getProductDal, similarProductsDal } from "./serviceAndDal/productsDal";
 import carts from "./serviceAndDal/cartsDal";
 import { getOrderByUserDal, postOrderDal } from "./serviceAndDal/orderDal";
 import { getTriggerMongoDal, getTriggerPostgresDal } from "./serviceAndDal/triggersDal";
 
-const pubsub = new RedisPubSub();
+const pubsub = new PubSub();
 const resolvers = {
   Query: {
     getAllProducts: async (_: unknown, arg: { categoryName: string | undefined }) => {
